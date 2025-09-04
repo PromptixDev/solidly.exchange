@@ -90,12 +90,17 @@ function Setup() {
       setToAssetOptions(baseAsset)
       setFromAssetOptions(baseAsset)
 
+      // Configuration des tokens par défaut : XPL (sell) et USDT0 (buy)
       if(baseAsset.length > 0 && toAssetValue == null) {
-        setToAssetValue(baseAsset[0])
+        // Chercher USDT0 en premier
+        const usdtAsset = baseAsset.find(asset => asset.symbol === 'USDT0')
+        setToAssetValue(usdtAsset || baseAsset[0])
       }
 
       if(baseAsset.length > 0 && fromAssetValue == null) {
-        setFromAssetValue(baseAsset[1])
+        // Chercher XPL en premier  
+        const xplAsset = baseAsset.find(asset => asset.symbol === 'XPL')
+        setFromAssetValue(xplAsset || baseAsset[1])
       }
 
       forceUpdate()
@@ -478,13 +483,32 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
 
     //no options in our default list and its an address we search for the address
     if(ao.length === 0 && search && search.length === 42) {
-      const baseAsset = await stores.stableSwapStore.getBaseAsset(event.target.value, true, true)
+      stores.dispatcher.dispatch({
+        type: ACTIONS.SEARCH_ASSET,
+        content: { address: search }
+      })
     }
 
     return () => {
     }
   }, [assetOptions, search]);
 
+  useEffect(() => {
+    const assetSearched = (newAsset) => {
+      if(Array.isArray(newAsset)) {
+        // Si c'est un tableau (depuis localStorage)
+        setFilteredAssetOptions(prev => [...prev, ...newAsset])
+      } else if(newAsset && newAsset.address) {
+        // Si c'est un seul asset (nouveau token trouvé)
+        setFilteredAssetOptions(prev => [...prev, newAsset])
+      }
+    }
+
+    stores.emitter.on(ACTIONS.ASSET_SEARCHED, assetSearched)
+    return () => {
+      stores.emitter.removeListener(ACTIONS.ASSET_SEARCHED, assetSearched)
+    }
+  }, [])
 
   const onSearchChanged = async (event) => {
     setSearch(event.target.value)

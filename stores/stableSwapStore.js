@@ -681,27 +681,47 @@ class Store {
         return null
       }
 
-      const baseAssetContract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, address)
+      let newBaseAsset
 
-      const [ symbol, decimals, name ] = await Promise.all([
-        baseAssetContract.methods.symbol().call(),
-        baseAssetContract.methods.decimals().call(),
-        baseAssetContract.methods.name().call(),
-      ])
+      // Gestion spéciale pour le token natif XPL
+      if(address.toLowerCase() === 'xpl') {
+        newBaseAsset = {
+          address: 'XPL',
+          symbol: 'XPL',
+          name: 'Plasma',
+          decimals: 18,
+          logoURI: '/token/XPL.png',
+          local: false
+        }
+      } else {
+        const baseAssetContract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, address)
 
-      const newBaseAsset = {
-        address: address,
-        symbol: symbol,
-        name: name,
-        decimals: parseInt(decimals),
-        logoURI: null,
-        local: true
+        const [ symbol, decimals, name ] = await Promise.all([
+          baseAssetContract.methods.symbol().call(),
+          baseAssetContract.methods.decimals().call(),
+          baseAssetContract.methods.name().call(),
+        ])
+
+        newBaseAsset = {
+          address: address,
+          symbol: symbol,
+          name: name,
+          decimals: parseInt(decimals),
+          logoURI: null,
+          local: true
+        }
       }
 
       if(getBalance) {
         const account = stores.accountStore.getStore("account")
         if(account) {
-          const balanceOf = await baseAssetContract.methods.balanceOf(account.address).call()
+          let balanceOf
+          // Gestion spéciale pour le token natif XPL
+          if(address.toLowerCase() === 'xpl' || newBaseAsset.symbol === 'XPL') {
+            balanceOf = await web3.eth.getBalance(account.address)
+          } else {
+            balanceOf = await baseAssetContract.methods.balanceOf(account.address).call()
+          }
           newBaseAsset.balance = BigNumber(balanceOf).div(10**newBaseAsset.decimals).toFixed(newBaseAsset.decimals)
         }
       } // GET BACK HERE
@@ -752,33 +772,91 @@ class Store {
 
   _getBaseAssets = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/baseAssets`, {
-      	method: 'get',
-      	headers: {
-          'Authorization': `Basic ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-        }
-      })
-      const baseAssetsCall = await response.json()
-
-      let baseAssets = baseAssetsCall.data
-
-      const nativeFTM = {
-        address: CONTRACTS.FTM_ADDRESS,
-        decimals: CONTRACTS.FTM_DECIMALS,
-        logoURI: CONTRACTS.FTM_LOGO,
-        name: CONTRACTS.FTM_NAME,
-        symbol: CONTRACTS.FTM_SYMBOL
+      // Fallback si l'API ne fonctionne pas, on utilise des tokens par défaut
+      let baseAssets = []
+      
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/v1/baseAssets`, {
+        	method: 'get',
+        	headers: {
+            'Authorization': `Basic ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+          }
+        })
+        const baseAssetsCall = await response.json()
+        baseAssets = baseAssetsCall.data || []
+      } catch(apiEx) {
+        console.log('API call failed, using local assets only')
+        baseAssets = []
       }
 
-      baseAssets.unshift(nativeFTM)
+      // Token natif XPL/Plasma
+      const nativeXPL = {
+        address: CONTRACTS.XPL_ADDRESS,
+        decimals: CONTRACTS.XPL_DECIMALS,
+        logoURI: CONTRACTS.XPL_LOGO,
+        name: CONTRACTS.XPL_NAME,
+        symbol: CONTRACTS.XPL_SYMBOL
+      }
+
+      // Ajouter nos tokens par défaut
+      const defaultTokens = [
+        nativeXPL,
+        {
+          address: CONTRACTS.GOV_TOKEN_ADDRESS,
+          decimals: CONTRACTS.GOV_TOKEN_DECIMALS,
+          logoURI: CONTRACTS.GOV_TOKEN_LOGO,
+          name: CONTRACTS.GOV_TOKEN_NAME,
+          symbol: CONTRACTS.GOV_TOKEN_SYMBOL
+        },
+        {
+          address: CONTRACTS.WXPL_ADDRESS,
+          decimals: CONTRACTS.WXPL_DECIMALS,
+          logoURI: CONTRACTS.XPL_LOGO,
+          name: CONTRACTS.WXPL_NAME,
+          symbol: CONTRACTS.WXPL_SYMBOL
+        },
+        {
+          address: CONTRACTS.TEST_USDT_ADDRESS,
+          decimals: 6,
+          logoURI: '/token/USDT0.png',
+          name: 'Tether USD',
+          symbol: 'USDT0'
+        },
+        {
+          address: CONTRACTS.TEST_USDC_ADDRESS,
+          decimals: 6,
+          logoURI: '/token/USDC.png',
+          name: 'USD Coin',
+          symbol: 'USDC'
+        }
+      ]
+
+      // Combiner tous les tokens
+      const allTokens = [...defaultTokens, ...baseAssets]
 
       let localBaseAssets = this.getLocalAssets()
 
-      return [...baseAssets, ...localBaseAssets]
+      return [...allTokens, ...localBaseAssets]
 
     } catch(ex) {
       console.log(ex)
-      return []
+      // En cas d'erreur totale, retourner au moins nos tokens de base
+      return [
+        {
+          address: CONTRACTS.XPL_ADDRESS,
+          decimals: CONTRACTS.XPL_DECIMALS,
+          logoURI: CONTRACTS.XPL_LOGO,
+          name: CONTRACTS.XPL_NAME,
+          symbol: CONTRACTS.XPL_SYMBOL
+        },
+        {
+          address: CONTRACTS.TEST_USDT_ADDRESS,
+          decimals: 6,
+          logoURI: '/token/USDT0.png',
+          name: 'Tether USD',
+          symbol: 'USDT0'
+        }
+      ]
     }
   }
 
@@ -856,6 +934,7 @@ class Store {
       this.emitter.emit(ACTIONS.ERROR, ex)
     }
   }
+
 
   _getVestNFTs = async (web3, account) => {
     try {
@@ -1045,12 +1124,13 @@ class Store {
         return null
       }
 
+      console.log("🔍 Getting balances for account:", account.address)
       const voterContract = new web3.eth.Contract(CONTRACTS.VOTER_ABI, CONTRACTS.VOTER_ADDRESS)
 
       const baseAssetsBalances = await Promise.all(
         baseAssets.map(async (asset) => {
           try {
-            if(asset.address === 'FTM') {
+            if(asset.address === 'FTM' || asset.address === 'XPL' || asset.symbol === 'XPL') {
               let bal = await web3.eth.getBalance(account.address)
               return {
                 balanceOf: bal,
@@ -1060,19 +1140,34 @@ class Store {
 
             const assetContract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, asset.address)
 
-            const [ isWhitelisted, balanceOf ] = await Promise.all([
-              voterContract.methods.isWhitelisted(asset.address).call(),
-              assetContract.methods.balanceOf(account.address).call(),
-            ])
+            // Tester d'abord si le contrat répond
+            let balanceOf = '0'
+            let isWhitelisted = false
+            
+            try {
+              balanceOf = await assetContract.methods.balanceOf(account.address).call()
+              console.log(`📊 Raw balance for ${asset.symbol} (${asset.address}):`, balanceOf, "Account:", account.address)
+            } catch(balanceError) {
+              console.warn(`⚠️ balanceOf failed for ${asset.symbol} (${asset.address}):`, balanceError.message)
+              balanceOf = '0'
+            }
+
+            try {
+              isWhitelisted = await voterContract.methods.isWhitelisted(asset.address).call()
+            } catch(whitelistError) {
+              console.warn(`⚠️ isWhitelisted failed for ${asset.symbol}:`, whitelistError.message)
+              isWhitelisted = false
+            }
 
             return {
               balanceOf,
               isWhitelisted
             }
           } catch(ex) {
-            console.log("EXCEPTION 3")
-            console.log(asset)
-            console.log(ex)
+            console.log("EXCEPTION 3 - Balance detection failed for asset:")
+            console.log("Asset:", asset)
+            console.log("Error:", ex)
+            console.log("Address:", asset.address)
             return {
               balanceOf: '0',
               isWhitelisted: false
@@ -1084,6 +1179,7 @@ class Store {
       for (let i = 0; i < baseAssets.length; i++) {
         baseAssets[i].balance = BigNumber(baseAssetsBalances[i].balanceOf).div(10 ** baseAssets[i].decimals).toFixed(baseAssets[i].decimals)
         baseAssets[i].isWhitelisted = baseAssetsBalances[i].isWhitelisted
+        console.log(`Balance for ${baseAssets[i].symbol} (${baseAssets[i].address}):`, baseAssets[i].balance)
       }
 
       this.setStore({ baseAssets })
@@ -1110,19 +1206,47 @@ class Store {
         return
       }
 
+      const web3 = await stores.accountStore.getWeb3Provider()
+      if (!web3) {
+        console.warn('web3 not found')
+        return null
+      }
+
       const baseAssetContract = new web3.eth.Contract(CONTRACTS.ERC20_ABI, payload.content.address)
 
-      const [ symbol, decimals, name ] = await Promise.all([
-        baseAssetContract.methods.symbol().call(),
-        baseAssetContract.methods.decimals().call(),
-        baseAssetContract.methods.name().call(),
-      ])
-
-      const newBaseAsset = {
-        address: payload.content.address,
-        symbol: symbol,
-        name: name,
-        decimals: parseInt(decimals)
+      const account = stores.accountStore.getStore("account")
+      let newBaseAsset
+      
+      if (account) {
+        const [ symbol, decimals, name, balance ] = await Promise.all([
+          baseAssetContract.methods.symbol().call(),
+          baseAssetContract.methods.decimals().call(),
+          baseAssetContract.methods.name().call(),
+          baseAssetContract.methods.balanceOf(account.address).call(),
+        ])
+        const balanceOf = BigNumber(balance).div(10**parseInt(decimals)).toFixed(parseInt(decimals))
+        
+        newBaseAsset = {
+          address: payload.content.address,
+          symbol: symbol,
+          name: name,
+          decimals: parseInt(decimals),
+          balance: balanceOf
+        }
+      } else {
+        const [ symbol, decimals, name ] = await Promise.all([
+          baseAssetContract.methods.symbol().call(),
+          baseAssetContract.methods.decimals().call(),
+          baseAssetContract.methods.name().call(),
+        ])
+        
+        newBaseAsset = {
+          address: payload.content.address,
+          symbol: symbol,
+          name: name,
+          decimals: parseInt(decimals),
+          balance: '0'
+        }
       }
 
       localBaseAssets = [...localBaseAssets, newBaseAsset]
@@ -2715,6 +2839,33 @@ class Store {
       const routeAssets = this.getStore('routeAssets')
       const { fromAsset, toAsset, fromAmount } = payload.content
 
+      // Check if this is a wrap/unwrap operation - 1:1 rate
+      const isXPLToWXPL = (fromAsset.symbol === 'XPL' || fromAsset.address === 'XPL') && 
+                         (toAsset.symbol === 'WXPL' && toAsset.address === CONTRACTS.WXPL_ADDRESS)
+      const isWXPLToXPL = (fromAsset.symbol === 'WXPL' && fromAsset.address === CONTRACTS.WXPL_ADDRESS) && 
+                         (toAsset.symbol === 'XPL' || toAsset.address === 'XPL')
+
+      if (isXPLToWXPL || isWXPLToXPL) {
+        const returnValue = {
+          inputs: {
+            fromAsset: fromAsset,
+            fromAmount: fromAmount,
+            toAsset: toAsset,
+          },
+          output: {
+            finalValue: fromAmount, // 1:1 rate
+            routeAsset: null,
+            routes: [{
+              from: fromAsset.address,
+              to: toAsset.address,  
+              stable: true // Wrap/unwrap est toujours "stable" (1:1)
+            }], // Route fictive pour l'UI
+          }
+        }
+        this.emitter.emit(ACTIONS.QUOTE_SWAP_RETURNED, returnValue)
+        return returnValue
+      }
+
       const routerContract = new web3.eth.Contract(CONTRACTS.ROUTER_ABI, CONTRACTS.ROUTER_ADDRESS)
       const sendFromAmount = BigNumber(fromAmount).times(10**fromAsset.decimals).toFixed()
 
@@ -2730,6 +2881,12 @@ class Store {
       }
       if(toAsset.address === 'FTM') {
         addy1 = CONTRACTS.WFTM_ADDRESS
+      }
+      if(fromAsset.address === 'XPL' || fromAsset.symbol === 'XPL') {
+        addy0 = CONTRACTS.WXPL_ADDRESS
+      }
+      if(toAsset.address === 'XPL' || toAsset.symbol === 'XPL') {
+        addy1 = CONTRACTS.WXPL_ADDRESS
       }
 
       const includesRouteAddress = routeAssets.filter((asset) => {
@@ -2812,6 +2969,11 @@ class Store {
       })
 
       const multicall = await stores.accountStore.getMulticall()
+      
+      console.log("🔍 Quote routes:", amountOuts.map(route => route.routes))
+      console.log("📊 From asset:", fromAsset.symbol, "addy0:", addy0)
+      console.log("📊 To asset:", toAsset.symbol, "addy1:", addy1)
+      
       const receiveAmounts = await multicall.aggregate(amountOuts.map((route) => {
         return routerContract.methods.getAmountsOut(sendFromAmount, route.routes)
       }))
@@ -2881,6 +3043,77 @@ class Store {
     }
   }
 
+  _handleWrapUnwrap = async (web3, account, fromAsset, toAsset, fromAmount) => {
+    try {
+      const wxplContract = new web3.eth.Contract(CONTRACTS.WXPL_ABI, CONTRACTS.WXPL_ADDRESS)
+      const gasPrice = await stores.accountStore.getGasPrice()
+      
+      console.log("🔍 Wrap Debug:")
+      console.log("fromAsset:", fromAsset)
+      console.log("fromAmount:", fromAmount)
+      console.log("fromAsset.decimals:", fromAsset.decimals)
+      
+      // Pour XPL natif, utiliser 18 decimals
+      const decimals = (fromAsset.symbol === 'XPL' || fromAsset.address === 'XPL') ? 18 : fromAsset.decimals
+      const sendAmount = BigNumber(fromAmount).times(10**decimals).toFixed()
+      
+      console.log("💰 Calculated sendAmount:", sendAmount)
+      console.log("💰 SendAmount in ETH:", BigNumber(sendAmount).div(10**18).toFixed())
+      
+      let swapTXID = this.getTXUUID()
+      
+      // XPL → WXPL (Wrap)
+      if (fromAsset.symbol === 'XPL' || fromAsset.address === 'XPL') {
+        console.log("🔄 Wrapping XPL → WXPL", fromAmount)
+        
+        this.emitter.emit(ACTIONS.TX_ADDED, { 
+          title: `Wrap ${fromAmount} XPL to WXPL`, 
+          type: 'Wrap', 
+          verb: 'Wrap Successful', 
+          transactions: [{
+            uuid: swapTXID,
+            description: `Wrapping ${fromAmount} XPL to WXPL`,
+            status: 'WAITING'
+          }]
+        })
+
+        this._callContractWait(web3, wxplContract, 'deposit', [], account, gasPrice, null, null, swapTXID, (err) => {
+          if (err) {
+            return this.emitter.emit(ACTIONS.ERROR, err)
+          }
+          this.emitter.emit(ACTIONS.SWAP_RETURNED)
+          this.dispatcher.dispatch({ type: ACTIONS.GET_BALANCES })
+        }, null, sendAmount)
+      } 
+      // WXPL → XPL (Unwrap)
+      else {
+        console.log("🔄 Unwrapping WXPL → XPL", fromAmount)
+        
+        this.emitter.emit(ACTIONS.TX_ADDED, { 
+          title: `Unwrap ${fromAmount} WXPL to XPL`, 
+          type: 'Unwrap', 
+          verb: 'Unwrap Successful', 
+          transactions: [{
+            uuid: swapTXID,
+            description: `Unwrapping ${fromAmount} WXPL to XPL`,
+            status: 'WAITING'
+          }]
+        })
+
+        this._callContractWait(web3, wxplContract, 'withdraw', [sendAmount], account, gasPrice, null, null, swapTXID, (err) => {
+          if (err) {
+            return this.emitter.emit(ACTIONS.ERROR, err)
+          }
+          this.emitter.emit(ACTIONS.SWAP_RETURNED)
+          this.dispatcher.dispatch({ type: ACTIONS.GET_BALANCES })
+        })
+      }
+    } catch(ex) {
+      console.error('Wrap/Unwrap error:', ex)
+      this.emitter.emit(ACTIONS.ERROR, ex)
+    }
+  }
+
   swap = async (payload) => {
     try {
       const context = this
@@ -2898,6 +3131,16 @@ class Store {
       }
 
       const { fromAsset, toAsset, fromAmount, toAmount, quote, slippage } = payload.content
+
+      // Check if this is a wrap/unwrap operation
+      const isXPLToWXPL = (fromAsset.symbol === 'XPL' || fromAsset.address === 'XPL') && 
+                         (toAsset.symbol === 'WXPL' && toAsset.address === CONTRACTS.WXPL_ADDRESS)
+      const isWXPLToXPL = (fromAsset.symbol === 'WXPL' && fromAsset.address === CONTRACTS.WXPL_ADDRESS) && 
+                         (toAsset.symbol === 'XPL' || toAsset.address === 'XPL')
+
+      if (isXPLToWXPL || isWXPLToXPL) {
+        return this._handleWrapUnwrap(web3, account, fromAsset, toAsset, fromAmount)
+      }
 
       // ADD TRNASCTIONS TO TRANSACTION QUEUE DISPLAY
       let allowanceTXID = this.getTXUUID()
@@ -2990,6 +3233,14 @@ class Store {
       if(toAsset.address === 'FTM') {
         func = 'swapExactTokensForFTM'
       }
+      if(fromAsset.address === 'XPL' || fromAsset.symbol === 'XPL') {
+        func = 'swapExactETHForTokens'
+        params = [sendMinAmountOut, quote.output.routes, account.address, deadline]
+        sendValue = sendFromAmount
+      }
+      if(toAsset.address === 'XPL' || toAsset.symbol === 'XPL') {
+        func = 'swapExactTokensForETH'
+      }
 
       this._callContractWait(web3, routerContract, func, params, account, gasPrice, null, null, swapTXID, (err) => {
         if (err) {
@@ -3020,7 +3271,7 @@ class Store {
       const ba = await Promise.all(
         baseAssets.map(async (asset) => {
           if(asset.address.toLowerCase() === assetAddress.toLowerCase()) {
-            if(asset.address === 'FTM') {
+            if(asset.address === 'FTM' || asset.address === 'XPL' || asset.symbol === 'XPL') {
               let bal = await web3.eth.getBalance(account.address)
               asset.balance = BigNumber(bal).div(10 ** asset.decimals).toFixed(asset.decimals)
             } else {
