@@ -1,13 +1,13 @@
 {
-  "name": "solidly",
+  "name": "fuseon-exchange",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "export": "next export",
-    "build2": "next build && next export",
-    "start": "next start"
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider next build",
+    "export": "cross-env NODE_OPTIONS=--openssl-legacy-provider next export",
+    "build2": "cross-env NODE_OPTIONS=--openssl-legacy-provider next build && cross-env NODE_OPTIONS=--openssl-legacy-provider next export",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider next start"
   },
   "dependencies": {
     "@dopex-io/web3-multicall": "^0.1.5",
@@ -35,5 +35,8 @@
     "smooth-scroll": "^16.1.3",
     "uuid": "^8.3.2",
     "web3": "^1.5.2"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0"
   }
 }

@@ -134,7 +134,7 @@
   transform: translate(-50%, -50%);
   width: 420px;
   height: 420px;
-  background-image: url('/images/sphere_001.png');
+  
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

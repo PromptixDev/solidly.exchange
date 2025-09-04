@@ -3,14 +3,14 @@ import * as contractsTestnet from './contractsTestnet'
 import * as contracts from './contracts'
 import * as actions from './actions'
 
-let isTestnet = process.env.NEXT_PUBLIC_CHAINID == 4002
+let isTestnet = process.env.NEXT_PUBLIC_CHAINID == 9746
 
 // URLS
-let scan = 'https://ftmscan.com/'
+let scan = 'https://plasmascan.com/'
 let cont = contracts
 
 if(isTestnet) {
-  scan = 'https://testnet.ftmscan.com/'
+  scan = 'https://testnet.plasmascan.to/'
   cont = contractsTestnet
 }
 

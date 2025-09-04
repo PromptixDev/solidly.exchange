@@ -12,6 +12,7 @@
   width: calc(100%);
   border: 0;
   border-radius: 0 !important;
+  background: transparent;
 }
 
 .hidden { display: none !important; }

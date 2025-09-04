@@ -10,6 +10,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   z-index: 9;
 }
 
+body {
+  background-color: #090e1f !important;
+}
+
 button {
   text-transform: none !important;
 }

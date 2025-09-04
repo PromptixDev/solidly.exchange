@@ -1,21 +1,23 @@
 .newSwapContainer {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  min-height: calc(100vh - 423px);
-  align-items: center;
+  min-height: calc(100vh - 120px);
+  background-color: #11162b;
+  padding: 40px 20px;
 }
 
 .swapContainer {
-  max-width: 485px;
+  max-width: 520px;
   width: 100%;
-  padding: 24px;
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  -webkit-box-shadow: 0 13px 30px 0 rgba(7,9,18,0.1) !important;
-  box-shadow: 0 13px 30px 0 rgba(7,9,18,0.1) !important;
+  background: #11162b;
+  border-radius: 16px;
+  gap: 16px;
 }
 
 .smallerText {
@@ -28,27 +30,73 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 0px;
+}
+
+.inputLabel {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.swapInputSection {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.swapInputSection:first-child {
+  padding-top: 0;
+}
+
+.inputHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.balanceText {
+  color: #7E99B0;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .smallInputContainer {
   display: flex;
   flex-wrap: wrap;
-  border-radius: 10px;
+  border-radius: 16px;
   width: 100%;
   align-items: center;
-  background: rgb(33, 43, 72);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   max-width: 80px;
   min-height: 50px;
-  padding: 20px 12px 4px 12px ;
+  padding: 20px 12px 4px 12px;
+  transition: all 0.3s ease;
 }
 
-.massiveInputContainer {
+.smallInputContainer:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modernInputContainer {
   display: flex;
-  flex-wrap: wrap;
-  border-radius: 10px;
-  width: 100%;
   align-items: center;
-  background: rgb(33, 43, 72);
+  justify-content: space-between;
+  border-radius: 12px;
+  width: 100%;
+  background: rgba(33, 41, 60, 0.6);
+  border: 1px solid rgba(60, 72, 102, 0.3);
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.modernInputContainer:hover {
+  border-color: rgba(60, 72, 102, 0.6);
+  background: rgba(33, 41, 60, 0.8);
 }
 
 .error {
@@ -664,6 +712,133 @@
   }
 }
 
+/* Modern Token Selector */
+.tokenSelectorSection {
+  display: flex;
+  align-items: center;
+  min-width: 140px;
+}
+
+.modernTokenSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(45, 55, 80, 0.8);
+  border: 1px solid rgba(60, 72, 102, 0.4);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modernTokenSelector:hover {
+  background: rgba(45, 55, 80, 1);
+  border-color: rgba(60, 72, 102, 0.7);
+}
+
+.tokenIcon {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tokenSymbol {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.dropdownIcon {
+  color: #7E99B0;
+  flex-shrink: 0;
+}
+
+/* Amount Input Section */
+.amountInputSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 16px;
+}
+
+.modernInput {
+  font-size: 28px !important;
+  color: #ffffff !important;
+  text-align: right !important;
+  background: transparent !important;
+}
+
+.modernInput input {
+  text-align: right !important;
+  padding: 0 !important;
+}
+
+.usdValue {
+  color: #7E99B0;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Swap Arrow */
+.swapArrowContainer {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.swapArrowButton {
+  background: rgba(33, 41, 60, 0.8);
+  border: 1px solid rgba(60, 72, 102, 0.4);
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swapArrowButton:hover {
+  background: rgba(33, 41, 60, 1);
+  border-color: rgba(60, 72, 102, 0.7);
+  transform: rotate(180deg);
+}
+
+.swapArrowIcon {
+  color: #7E99B0;
+}
+
+/* Modern Swap Button */
+.modernActionsContainer {
+  padding-top: 20px;
+}
+
+.modernSwapButton {
+  width: 100% !important;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+.modernSwapButton:hover {
+  background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%) !important;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
+
+.modernSwapButton:disabled {
+  background: rgba(79, 70, 229, 0.5) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 @media screen and (max-width: 576px) {
   .newSwapContainer {
     margin-top: -100px;
@@ -682,5 +857,11 @@
   }
   .swapInfoContainer {
     width: 100%;
+  }
+  .modernInput {
+    font-size: 24px !important;
+  }
+  .tokenSymbol {
+    font-size: 14px;
   }
 }

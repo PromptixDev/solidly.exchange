@@ -1,26 +1,32 @@
 // list of assets we support for providing liquidity to the factory. We will have to expand on this.
 export default [{
-  address: '0x8ad96050318043166114884b59e2fc82210273b3',
-  name: 'USDT',
+  address: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+  name: 'Tether USD',
   symbol: 'USDT',
   decimals: 6,
-  logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xdAC17F958D2ee523a2206206994597C13D831ec7/logo.png'
+  logo: '/token/USDT0.png'
 },{
-  address: '0x976e33B07565b0c05B08b2e13AfFD3113e3D178d',
-  name: 'UST',
-  symbol: 'UST',
-  decimals: 18,
-  logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xa47c8bf37f92abed4a126bda807a7b7498661acd/logo.png'
+  address: '0xa0b86a33e6776c33a2a84e4b7d97ab8cdab2b264',
+  name: 'USD Coin',
+  symbol: 'USDC',
+  decimals: 6,
+  logo: '/token/usdc.png'
 },{
-  address: '0xc0a51ac9d548bdcde53fa59448029e41a39feb20',
-  name: 'MIM',
-  symbol: 'MIM',
+  address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+  name: 'Dai Stablecoin',
+  symbol: 'DAI',
   decimals: 18,
-  logo: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0x99d8a9c45b2eca8864373a26d1459e3dff1e17f3/logo.png'
+  logo: '/token/dai.png'
 },{
-  address: '0xd3C885b06E9308ed1BC0f4EEF9bAee17652Ed747',
-  name: 'BaseV1',
-  symbol: 'BaseV1',
+  address: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+  name: 'Wrapped Bitcoin',
+  symbol: 'WBTC',
+  decimals: 8,
+  logo: '/token/BTC.png'
+},{
+  address: '0x940181a94a35a4569e4529a3cdfb74e38fd98631',
+  name: 'Fuseon Token',
+  symbol: 'FUSEON',
   decimals: 18,
-  logo: ''
+  logo: '/token/fuseon.png'
 }]

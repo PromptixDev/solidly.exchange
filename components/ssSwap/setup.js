@@ -380,29 +380,25 @@ function Setup() {
   const renderMassiveInput = (type, amountValue, amountError, amountChanged, assetValue, assetError, assetOptions, onAssetSelect) => {
 
     return (
-      <div className={ classes.textField}>
-        <div className={ classes.inputTitleContainer }>
-          <div className={ classes.inputBalance }>
-            <Typography className={ classes.inputBalanceText } noWrap onClick={ () => {
-              if(type === 'From') {
-                setBalance100()
-              }
-            }}>
-              Balance:
-              { (assetValue && assetValue.balance) ?
-                ' ' +   formatCurrency(assetValue.balance) :
-                ''
-              }
-            </Typography>
+      <div className={ classes.swapInputSection}>
+        <div className={ classes.inputHeader }>
+          <div className={ classes.inputLabel }>
+            {type === 'From' ? 'Sell' : 'Buy'}
+          </div>
+          <div className={ classes.balanceText }>
+            Balance: { (assetValue && assetValue.balance) ?
+              formatCurrency(assetValue.balance) + ' ' + assetValue.symbol :
+              '0.0 ' + (assetValue?.symbol || '')
+            }
           </div>
         </div>
-        <div className={ `${classes.massiveInputContainer} ${ (amountError || assetError) && classes.error }` }>
-          <div className={ classes.massiveInputAssetSelect }>
+        <div className={ `${classes.modernInputContainer} ${ (amountError || assetError) && classes.error }` }>
+          <div className={ classes.tokenSelectorSection }>
             <AssetSelect type={type} value={ assetValue } assetOptions={ assetOptions } onSelect={ onAssetSelect } />
           </div>
-          <div className={ classes.massiveInputAmount }>
+          <div className={ classes.amountInputSection }>
             <TextField
-              placeholder='0.00'
+              placeholder='0'
               fullWidth
               error={ amountError }
               helperText={ amountError }
@@ -410,12 +406,12 @@ function Setup() {
               onChange={ amountChanged }
               disabled={ loading || type === 'To' }
               InputProps={{
-                className: classes.largeInput
+                className: classes.modernInput,
+                disableUnderline: true
               }}
+              variant="standard"
             />
-
-            <Typography color='textSecondary' className={ classes.smallerText }>{ assetValue?.symbol }</Typography>
-
+            <div className={ classes.usdValue }>~$0.0</div>
           </div>
         </div>
       </div>
@@ -425,24 +421,28 @@ function Setup() {
   return (
     <div className={ classes.swapInputs }>
       { renderMassiveInput('From', fromAmountValue, fromAmountError, fromAmountChanged, fromAssetValue, fromAssetError, fromAssetOptions, onAssetSelect) }
-      <div className={ classes.swapIconContainer }>
-        <div className={ classes.swapIconSubContainer }>
-          <ArrowDownwardIcon className={ classes.swapIcon } onClick={ swapAssets }/>
-        </div>
+      
+      <div className={ classes.swapArrowContainer }>
+        <button className={ classes.swapArrowButton } onClick={ swapAssets }>
+          <svg className={ classes.swapArrowIcon } width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
+      
       { renderMassiveInput('To', toAmountValue, toAmountError, toAmountChanged, toAssetValue, toAssetError, toAssetOptions, onAssetSelect) }
+      
       { renderSwapInformation() }
-      <div className={ classes.actionsContainer }>
+      
+      <div className={ classes.modernActionsContainer }>
         <Button
           variant='contained'
           size='large'
-          color='primary'
-          className={classes.buttonOverride}
+          className={classes.modernSwapButton}
           disabled={ loading || quoteLoading }
           onClick={ onSwap }
           >
-          <Typography className={ classes.actionButtonText }>{ loading ? `Swapping` : `Swap` }</Typography>
-          { loading && <CircularProgress size={10} className={ classes.loadingCircle } /> }
+          { loading ? `Swapping...` : `Swap` }
         </Button>
       </div>
     </div>
@@ -580,7 +580,7 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
               autoFocus
               variant="outlined"
               fullWidth
-              placeholder="FTM, MIM, 0x..."
+              placeholder="XPL, USDT0, 0x..."
               value={ search }
               onChange={ onSearchChanged }
               InputProps={{
@@ -620,7 +620,7 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
               autoFocus
               variant="outlined"
               fullWidth
-              placeholder="FTM, MIM, 0x..."
+              placeholder="XPL, USDT0, 0x..."
               value={ search }
               onChange={ onSearchChanged }
               InputProps={{
@@ -657,18 +657,19 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
 
   return (
     <React.Fragment>
-      <div className={ classes.displaySelectContainer } onClick={ () => { openSearch() } }>
-        <div className={ classes.assetSelectMenuItem }>
-          <div className={ classes.displayDualIconContainer }>
-            <img
-              className={ classes.displayAssetIcon }
-              alt=""
-              src={ value ? `${value.logoURI}` : '' }
-              height='100px'
-              onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
-            />
-          </div>
-        </div>
+      <div className={ classes.modernTokenSelector } onClick={ () => { openSearch() } }>
+        <img
+          className={ classes.tokenIcon }
+          alt=""
+          src={ value ? `${value.logoURI}` : '' }
+          width='32'
+          height='32'
+          onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
+        />
+        <span className={ classes.tokenSymbol }>{ value ? value.symbol : 'Select' }</span>
+        <svg className={ classes.dropdownIcon } width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
       </div>
       <Dialog onClose={ onClose } aria-labelledby="simple-dialog-title" open={ open } >
         { !manageLocal && renderOptions() }

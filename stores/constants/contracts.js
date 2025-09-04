@@ -1,30 +1,30 @@
 import abis from "../abis";
 
-export const GOV_TOKEN_ADDRESS = '0x888EF71766ca594DED1F0FA3AE64eD2941740A20'
-export const GOV_TOKEN_NAME = 'Solid'
-export const GOV_TOKEN_SYMBOL = 'SOLID'
+export const GOV_TOKEN_ADDRESS = '0x940181a94a35a4569e4529a3cdfb74e38fd98631'
+export const GOV_TOKEN_NAME = 'Fuseon Token'
+export const GOV_TOKEN_SYMBOL = 'FUSEON'
 export const GOV_TOKEN_DECIMALS = 18
-export const GOV_TOKEN_LOGO = 'https://prod.solidly.exchange/Solidly-O.svg'
+export const GOV_TOKEN_LOGO = '/logo.png'
 export const GOV_TOKEN_ABI = abis.tokenABI
 
 export const VE_TOKEN_ADDRESS = '0xcBd8fEa77c2452255f59743f55A3Ea9d83b3c72b'
 export const VE_TOKEN_NAME = 'veNFT'
 export const VE_TOKEN_SYMBOL = 'veNFT'
 export const VE_TOKEN_DECIMALS = 18
-export const VE_TOKEN_LOGO = 'https://prod.solidly.exchange/Solidly-O.svg'
+export const VE_TOKEN_LOGO = '/logo.png'
 export const VE_TOKEN_ABI = abis.veTokenABI
 
-export const WFTM_ADDRESS = '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83'
-export const WFTM_NAME = 'Wrapped Fantom'
-export const WFTM_SYMBOL = 'WFTM'
-export const WFTM_DECIMALS = 18
-export const WFTM_ABI = abis.wftmABI
+export const WXPL_ADDRESS = '0x0000000000000000000000000000000000000000'
+export const WXPL_NAME = 'Wrapped Plasma'
+export const WXPL_SYMBOL = 'WXPL'
+export const WXPL_DECIMALS = 18
+export const WXPL_ABI = abis.wftmABI
 
-export const FTM_ADDRESS = 'FTM'
-export const FTM_NAME = 'Fantom'
-export const FTM_SYMBOL = 'FTM'
-export const FTM_DECIMALS = 18
-export const FTM_LOGO = 'https://assets.coingecko.com/coins/images/4001/large/Fantom.png'
+export const XPL_ADDRESS = 'XPL'
+export const XPL_NAME = 'Plasma'
+export const XPL_SYMBOL = 'XPL'
+export const XPL_DECIMALS = 18
+export const XPL_LOGO = '/token/XPL.png'
 
 export const FACTORY_ADDRESS = '0x3fAaB499b519fdC5819e3D7ed0C26111904cbc28'
 export const FACTORY_ABI = abis.factoryABI

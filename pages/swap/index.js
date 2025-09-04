@@ -48,7 +48,7 @@ function Swap({ changeTheme }) {
             <div className={classes.contentFloat}>
            <Typography className={classes.mainHeadingNC} variant='h1'>Swap</Typography>
            <Typography className={classes.mainDescNC} variant='body2'>
-             Swap between Solidly supported stable and volatile assets.
+             Swap between Fuseon supported stable and volatile assets.
            </Typography>
            <Button
              disableElevation
