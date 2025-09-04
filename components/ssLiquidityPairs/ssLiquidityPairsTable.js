@@ -369,11 +369,17 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonOverride: {
     width: '100%',
-    color: 'rgb(6, 211, 215)',
-    background: 'rgb(23, 52, 72)',
-    fontWeight: '700',
+    color: '#ffffff !important',
+    background: 'linear-gradient(135deg, #1a4bc7 0%, #2050ca 50%, #2d5bce 100%) !important',
+    fontWeight: '600 !important',
+    borderRadius: '12px !important',
+    textTransform: 'none !important',
+    boxShadow: '0 4px 12px rgba(32, 80, 202, 0.3) !important',
+    transition: 'all 0.2s ease !important',
     '&:hover': {
-      background: 'rgb(19, 44, 60)'
+      background: 'linear-gradient(135deg, #1640b8 0%, #1c46c1 50%, #2851c5 100%) !important',
+      boxShadow: '0 6px 16px rgba(32, 80, 202, 0.4) !important',
+      transform: 'translateY(-1px)',
     },
   },
   toolbar: {
