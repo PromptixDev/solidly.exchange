@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: rgb(33, 43, 72);
+  background: transparent;
   border-radius: 12px;
   border: 0 !important;
   padding: 3px;
@@ -17,11 +17,12 @@ a.linkz { cursor: pointer !important; }
 }
 
 .appLogo {
-  transform: scale(6);
-  position: fixed;
-  left: 100px;
-  top: 30px;
+  transform: scale(1);
+  position: relative;
+  left: 0;
+  top: 0;
   cursor: pointer;
+  padding: 8px;
 }
 
 .navigationHeading {
@@ -307,7 +308,7 @@ a.linkz { cursor: pointer !important; }
 } /* Transparent border to eliminate position jittering from Active state */
 
 .testChange {
-  border: 1px solid #06d3d7 !important;
+  border: 1px solid transparent !important;
   background-color: rgba(0,0,0,0) !important;
   color: #FFF !important;
 }
@@ -323,21 +324,21 @@ a.linkz { cursor: pointer !important; }
     padding: 15px 0px !important;
     border-radius: 0px !important;
     z-index: 10020;
-    background: #111729;
+    background: transparent;
   }
   .socials {
     display: none;
   }
   .navigationContent {
     /* display: none; */
-    background: #111729;
+    background: transparent;
     position: fixed;
     left: 0;
     top: 60px;
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    border-bottom: 1px solid rgba(126,153,176,0.2);
+    border-bottom: none;
   }
   .navigationContentMobile {
     position: fixed;
@@ -477,11 +478,12 @@ a.linkz { cursor: pointer !important; }
   }
 
   .appLogo {
-    transform: scale(5);
-    position: fixed;
-    left: 70px;
-    top: 18px;
+    transform: scale(1);
+    position: relative;
+    left: 0;
+    top: 0;
     cursor: pointer;
+    padding: 8px;
   }
 
   .testChange {
@@ -491,13 +493,13 @@ a.linkz { cursor: pointer !important; }
   }
 
   .navigationContent {
-    background: #111729;
+    background: transparent;
     position: fixed;
     left: 0;
     top: 45px;
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    border-bottom: 1px solid rgba(126,153,176,0.2);
+    border-bottom: none;
   }
 }

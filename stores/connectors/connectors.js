@@ -35,6 +35,6 @@ export const walletconnect = new WalletConnectConnector({
 
 export const walletlink = new WalletLinkConnector({
   url: RPC_URLS[process.env.NEXT_PUBLIC_CHAINID],
-  appName: "Fuseaon - The Central Liquidity Hub",
+  appName: "Fuseon - The Central Liquidity Hub",
   chainId: parseInt(process.env.NEXT_PUBLIC_CHAINID),
 });

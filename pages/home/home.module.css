@@ -48,10 +48,10 @@
   }
 
 .appLogo {
-  transform: scale(6);
+  transform: scale(1);
   position: fixed;
-  left: 100px;
-  top: 30px;
+  left: 30px;
+  top: 20px;
 }
 
 .preTitle {

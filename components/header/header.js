@@ -23,7 +23,7 @@ import classes from './header.module.css';
 function SiteLogo(props) {
   const { color, className } = props;
   return (
-    <img src="/logo.png" alt="Fuseon" className={className} style={{ height: '32px', width: 'auto' }} />
+    <img src="/logo.svg" alt="Fuseon" className={className} style={{ height: '32px', width: 'auto' }} />
   );
 }
 
@@ -232,7 +232,6 @@ function Header(props) {
 
         <div className={classes.logoContainer}>
           <a onClick={() => router.push('/home')}><SiteLogo className={classes.appLogo} /></a>
-          <Typography className={ classes.version}>version 0.0.30</Typography>
         </div>
 
         <Navigation changeTheme={props.changeTheme} />

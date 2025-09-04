@@ -39,10 +39,10 @@
 }
 
 .appLogo {
-  transform: scale(6);
-  position: fixed;
-  left: 100px;
-  top: 30px;
+  transform: scale(1);
+  position: relative;
+  left: 0;
+  top: 0;
   cursor: pointer;
 }
 

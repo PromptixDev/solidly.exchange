@@ -28,7 +28,7 @@ export default function Layout({
           crossOrigin=""
         />
         <meta name="description" content="Fuseon - The Central Liquidity Hub on Plasma. Low cost, near 0 slippage trades with advanced liquidity management." />
-        <meta name="og:title" content="Fuseaon - The Central Liquidity Hub" />
+        <meta name="og:title" content="Fuseon - The Central Liquidity Hub" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div className={classes.content}>

@@ -11,12 +11,6 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-function FuseonLogo(props) {
-  const { className } = props;
-  return (
-    <img src="/logo.png" alt="Fuseon" className={className} style={{ height: '64px', width: 'auto' }} />
-  );
-}
 
 function Home({ changeTheme }) {
 
@@ -33,7 +27,6 @@ function Home({ changeTheme }) {
 
       <div className={classes.contentContainerFull}>
 
-      <FuseonLogo className={classes.appLogo} />
 
         <Grid container spacing={2} className={classes.homeContentMain}>
           <Grid item lg={12} md={12} sm={12} xs={12}>
