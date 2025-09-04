@@ -541,7 +541,26 @@ const EnhancedTableToolbar = (props) => {
     <Toolbar className={ classes.toolbar }>
 
     <Grid container spacing={2}>
-      <Grid item lg={2} md={2} sm={12} xs={12}>
+      <Grid item lg={3} md={3} sm={4} xs={4}>
+        <TextField
+          className={classes.searchContainer}
+          variant="outlined"
+          fullWidth
+          placeholder="Search pools"
+          value={search}
+          onChange={onSearchChanged}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Grid>
+      <Grid item lg={6} md={6} sm={4} xs={4}>
+      </Grid>
+      <Grid item lg={2} md={2} sm={3} xs={3}>
         <Button
           variant="contained"
           color="secondary"
@@ -554,24 +573,7 @@ const EnhancedTableToolbar = (props) => {
           <Typography className={ classes.actionButtonText }>Add Liquidity</Typography>
         </Button>
       </Grid>
-      <Grid item lg={9} md={9} sm={10} xs={10}>
-        <TextField
-          className={classes.searchContainer}
-          variant="outlined"
-          fullWidth
-          placeholder="XPL, USDT0, 0x..."
-          value={search}
-          onChange={onSearchChanged}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Grid>
-      <Grid item lg={1} md={true} sm={2} xs={2}>
+      <Grid item lg={1} md={1} sm={1} xs={1}>
         <Tooltip placement="top" title="Filter list">
           <IconButton onClick={handleClick} className={ classes.filterButton } aria-label="filter list">
             <FilterListIcon />

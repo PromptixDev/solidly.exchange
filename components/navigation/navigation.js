@@ -111,8 +111,8 @@ function Navigation(props) {
     if(activePath.includes('liquidity')) {
       setActive('liquidity')
     }
-    if(activePath.includes('vest')) {
-      setActive('vest')
+    if(activePath.includes('lock')) {
+      setActive('lock')
     }
     if(activePath.includes('vote')) {
       setActive('vote')
@@ -148,8 +148,8 @@ function Navigation(props) {
           'liquidity',
         )}
         {renderSubNav(
-          'Vest',
-          'vest',
+          'Lock',
+          'lock',
         )}
         {renderSubNav(
           'Vote',
