@@ -351,7 +351,7 @@ function Setup() {
             {type === 'From' ? 'Sell' : 'Buy'}
           </div>
           {type === 'From' && (
-            <div className={ classes.balanceLabel }>
+            <div className={ classes.balanceLabel } onClick={ setBalance100 }>
               Balance: { (assetValue && assetValue.balance) ?
                 formatCurrency(assetValue.balance) + ' ' + assetValue.symbol :
                 '0.0 ' + (assetValue?.symbol || '')
@@ -384,16 +384,6 @@ function Setup() {
             </div>
           </div>
         </div>
-        {type === 'From' && (
-          <div className={ classes.percentageButtons }>
-            <button className={ classes.percentageButton } onClick={() => setFromAmountValue((assetValue.balance * 0.5).toString())}>
-              50%
-            </button>
-            <button className={ classes.percentageButton } onClick={() => setFromAmountValue(assetValue.balance)}>
-              MAX
-            </button>
-          </div>
-        )}
       </div>
     )
   }
@@ -507,6 +497,8 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
   const [ filteredAssetOptions, setFilteredAssetOptions ] = useState([])
 
   const [ manageLocal, setManageLocal ] = useState(false)
+  
+  const [ copiedAddr, setCopiedAddr ] = useState(null)
 
   const openSearch = () => {
     setSearch('')
@@ -558,6 +550,15 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
 
   const onSearchChanged = async (event) => {
     setSearch(event.target.value)
+  }
+
+  const handleCopy = async (e, address) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopiedAddr(address);
+      setTimeout(() => setCopiedAddr(null), 1200);
+    } catch (err) {}
   }
 
   const onLocalSelect = (type, asset) => {
@@ -616,10 +617,6 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
   }
 
   const renderAssetOption = (type, asset, idx) => {
-    const copyToClipboard = (text) => {
-      navigator.clipboard.writeText(text)
-    }
-
     const formatAddress = (address) => {
       return `${address.slice(0, 6)}...${address.slice(-4)}`
     }
@@ -641,12 +638,21 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
                 <span className={ classes.modernAssetSymbol }>{ asset ? asset.symbol : '' }</span>
                 {asset && asset.logoURI && <span className={ classes.modernAssetVerified }>✓</span>}
               </div>
-              <span 
-                className={ classes.modernAssetAddress } 
-                onClick={(e) => { e.stopPropagation(); copyToClipboard(asset.address) }}
-              >
-                { asset ? formatAddress(asset.address) : '' }
-              </span>
+              <div className={ classes.modernAssetAddressWrap }>
+                <span className={ classes.modernAssetAddress }>
+                  { asset ? formatAddress(asset.address) : '' }
+                </span>
+                <span
+                  className={ classes.copyIcon }
+                  onClick={(e) => handleCopy(e, asset.address) }
+                  title="Copier l'adresse"
+                >
+                  <img src="/images/copy.png" alt="Copier l'adresse" width="14" height="14" />
+                </span>
+                {copiedAddr === asset.address && (
+                  <span className={classes.copiedLabel}>Copied</span>
+                )}
+              </div>
             </div>
           </div>
           <div className={ classes.modernAssetRight }>
@@ -721,21 +727,31 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
           </div>
           <div className={ classes.assetSearchResults }>
             {
-              filteredAssetOptions ? filteredAssetOptions.filter((asset) => {
-                // Ne montrer que les tokens whitelistés (avec logo et non local)
-                return !asset.local && asset.logoURI;
-              }).sort((a, b) => {
-                // Trier par balance
-                if(BigNumber(a.balance).lt(b.balance)) return 1;
-                if(BigNumber(a.balance).gt(b.balance)) return -1;
-                
-                // Puis trier alphabétiquement
-                if(a.symbol.toLowerCase()<b.symbol.toLowerCase()) return -1;
-                if(a.symbol.toLowerCase()>b.symbol.toLowerCase()) return 1;
-                return 0;
-              }).map((asset, idx) => {
-                return renderAssetOption(type, asset, idx)
-              }) : []
+              (() => {
+                const preferredOrder = ['FUSEON', 'USDT0', 'XPL', 'USDC', 'WXPL'];
+                const list = filteredAssetOptions ? filteredAssetOptions.filter((asset) => {
+                  // Ne montrer que les tokens whitelistés (avec logo et non local)
+                  return !asset.local && asset.logoURI;
+                }) : [];
+
+                // Pinned tokens in specified order (case-insensitive), then the rest sorted by balance desc then symbol
+                const pinned = preferredOrder
+                  .map(sym => list.find(a => a.symbol && a.symbol.toUpperCase() === sym))
+                  .filter(Boolean);
+
+                const remaining = list.filter(a => !(a.symbol && preferredOrder.includes(a.symbol.toUpperCase())));
+
+                const sortedRemaining = remaining.sort((a, b) => {
+                  if(BigNumber(a.balance).lt(b.balance)) return 1;
+                  if(BigNumber(a.balance).gt(b.balance)) return -1;
+                  if(a.symbol.toLowerCase()<b.symbol.toLowerCase()) return -1;
+                  if(a.symbol.toLowerCase()>b.symbol.toLowerCase()) return 1;
+                  return 0;
+                });
+
+                const ordered = [...pinned, ...sortedRemaining];
+                return ordered.map((asset, idx) => renderAssetOption(type, asset, idx));
+              })()
             }
           </div>
         </div>

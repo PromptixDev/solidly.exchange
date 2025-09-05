@@ -60,6 +60,11 @@
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.balanceLabel:hover {
+  color: #06d3d7;
 }
 
 .balanceText {
@@ -1127,6 +1132,48 @@
 
 .modernAssetAddress:hover {
   color: #06d3d7;
+}
+
+/* Address + Copy icon */
+.modernAssetAddressWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copyIcon {
+  color: #7E99B0;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.modernAssetAddressWrap:hover .copyIcon {
+  opacity: 1;
+  color: #b5c7c8;
+}
+
+.copyIcon:hover {
+  color: #06d3d7;
+}
+
+.copiedLabel {
+  background: #06d3d7;
+  color: #061415;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  line-height: 1;
+  margin-left: 6px;
+  animation: copiedFade 1.2s ease forwards;
+}
+
+@keyframes copiedFade {
+  0% { opacity: 0; transform: translateY(-2px); }
+  15% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-2px); }
 }
 
 .modernAssetRight {
