@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import LiquidityCreate from '../../../components/ssLiquidityManage'
+import ModernLiquidityCreate from '../../../components/ssLiquidityManage/modernLiquidityCreate'
 
 import classes from './liquidity.module.css';
 
@@ -7,7 +7,7 @@ function Pair({ changeTheme }) {
 
   return (
     <div className={classes.container}>
-      <LiquidityCreate />
+      <ModernLiquidityCreate />
     </div>
   );
 }

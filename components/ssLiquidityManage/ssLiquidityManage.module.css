@@ -672,6 +672,211 @@
   }
 }
 
+/* Modern Liquidity Create Interface */
+.modernLiquidityContainer {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px;
+  background: #182627;
+  border-radius: 16px;
+  border: 1px solid rgba(42, 56, 57, 0.3);
+}
+
+.modernLiquidityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.modernLiquidityTitle {
+  color: #ffffff !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+}
+
+.modernLiquidityInfo {
+  color: #7E99B0 !important;
+  background: rgba(126, 153, 176, 0.1) !important;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 14px !important;
+}
+
+.modernLiquidityContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modernTokenSelectorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Token Selector */
+.modernTokenSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modernTokenSelectorLabel {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+.modernTokenSelectorButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background: #1e2d2f;
+  border: 1px solid #2a3839;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modernTokenSelectorButton:hover {
+  border-color: #334142;
+  background: #243031;
+}
+
+.modernTokenSelectorContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modernTokenSelectorIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.modernTokenSelectorSymbol {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modernTokenSelectorPlaceholder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modernTokenSelectorPlaceholderIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2a3839;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7E99B0;
+}
+
+.modernTokenSelectorPlaceholderText {
+  color: #06d3d7;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.modernTokenSelectorArrow {
+  color: #7E99B0;
+}
+
+/* Pool Type Selector */
+.modernPoolTypeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modernPoolTypeCard {
+  padding: 24px;
+  background: #1e2d2f;
+  border: 1px solid #2a3839;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modernPoolTypeCard:hover {
+  border-color: #334142;
+}
+
+.modernPoolTypeCardActive {
+  border-color: #06d3d7 !important;
+  background: rgba(6, 211, 215, 0.05) !important;
+}
+
+.modernPoolTypeHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.modernPoolTypeRadio {
+  color: #06d3d7 !important;
+}
+
+.modernPoolTypeTitle {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+.modernPoolTypeDescription {
+  color: #7E99B0 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin-left: 36px !important;
+}
+
+/* Buttons */
+.modernNextButton {
+  background: #06d3d7 !important;
+  color: #061415 !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 16px 32px !important;
+  border-radius: 12px !important;
+  text-transform: none !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
+.modernNextButton:hover {
+  background: #05b8bb !important;
+}
+
+.modernNextButton:disabled {
+  background: rgba(6, 211, 215, 0.3) !important;
+  color: rgba(6, 20, 21, 0.7) !important;
+}
+
+.modernCreateButton {
+  background: linear-gradient(135deg, #48CC9A 0%, #2D9F6F 100%) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 16px 32px !important;
+  border-radius: 12px !important;
+  text-transform: none !important;
+  width: 100% !important;
+}
+
+.modernCreateButton:hover {
+  background: linear-gradient(135deg, #52D4A4 0%, #319972 100%) !important;
+}
+
 @media screen and (max-width: 960px) {
   .container {
     margin-top: 0px;
@@ -679,4 +884,13 @@
   }
 
   .helpIcon { display: none; }
+  
+  .modernLiquidityContainer {
+    padding: 24px;
+    margin: 0 12px;
+  }
+  
+  .modernLiquidityTitle {
+    font-size: 20px !important;
+  }
 }

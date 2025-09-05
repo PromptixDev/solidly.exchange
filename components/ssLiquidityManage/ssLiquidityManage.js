@@ -39,6 +39,7 @@ export default function ssLiquidityManage() {
   const [ amount1Error, setAmount1Error ] = useState(false);
 
   const [ stable, setStable ] = useState(false)
+  const [ poolType, setPoolType ] = useState('basic') // 'basic' or 'concentrated'
 
   const [ asset0, setAsset0 ] = useState(null)
   const [ asset1, setAsset1 ] = useState(null)
