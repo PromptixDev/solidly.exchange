@@ -52,6 +52,7 @@ function Setup() {
 
   const [ slippage, setSlippage ] = useState('2')
   const [ slippageError, setSlippageError ] = useState(false)
+  const [ slippageModalOpen, setSlippageModalOpen ] = useState(false)
 
   const [ quoteError, setQuoteError ] = useState(null)
   const [ quote, setQuote ] = useState(null)
@@ -284,71 +285,30 @@ function Setup() {
     }
 
     return (
-      <div className={ classes.depositInfoContainer }>
-        <Typography className={ classes.depositInfoHeading } >Price Info</Typography>
-        <div className={ classes.priceInfos}>
-          <div className={ classes.priceInfo }>
-            <Typography className={ classes.title } >{ formatCurrency(BigNumber(quote.inputs.fromAmount).div(quote.output.finalValue).toFixed(18)) }</Typography>
-            <Typography className={ classes.text } >{ `${fromAssetValue?.symbol} per ${toAssetValue?.symbol}` }</Typography>
-          </div>
-          <div className={ classes.priceInfo }>
-            <Typography className={ classes.title } > { formatCurrency(BigNumber(quote.output.finalValue).div(quote.inputs.fromAmount).toFixed(18)) } </Typography>
-            <Typography className={ classes.text } >{ `${toAssetValue?.symbol} per ${fromAssetValue?.symbol}` }</Typography>
-          </div>
-          <div className={ classes.priceInfo }>
-            { renderSmallInput('slippage', slippage, slippageError, onSlippageChanged) }
+      <div className={ classes.modernPriceInfo }>
+        <div className={ classes.priceInfoRow }>
+          <span className={ classes.priceLabel }>Fees</span>
+          <span className={ classes.priceValue }>0.008%</span>
+        </div>
+        <div className={ classes.priceInfoRow }>
+          <span className={ classes.priceLabel }>Exchange rate</span>
+          <span className={ classes.priceValue }>
+            1 {fromAssetValue?.symbol} = {formatCurrency(BigNumber(quote.output.finalValue).div(quote.inputs.fromAmount).toFixed(8))} {toAssetValue?.symbol}
+          </span>
+        </div>
+        <div className={ classes.priceInfoRow }>
+          <span className={ classes.priceLabel }>Price impact</span>
+          <span className={ classes.priceValue }>{formatCurrency(quote.priceImpact)}%</span>
+        </div>
+        <div className={ classes.priceInfoRow }>
+          <span className={ classes.priceLabel }>Minimum received</span>
+          <div className={ classes.priceValueWithSlippage }>
+            <span className={ classes.slippageLabel } onClick={() => setSlippageModalOpen(true)}>Slippage {slippage}%</span>
+            <span className={ classes.priceValue }>
+              {formatCurrency(BigNumber(quote.output.finalValue).times(1 - slippage/100).toFixed(8))} {toAssetValue?.symbol}
+            </span>
           </div>
         </div>
-        <Typography className={ classes.depositInfoHeading } >Route</Typography>
-        <div className={ classes.route }>
-          <img
-            className={ classes.displayAssetIconSmall }
-            alt=""
-            src={ fromAssetValue ? `${fromAssetValue.logoURI}` : '' }
-            height='40px'
-            onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
-          />
-          <div className={ classes.line }>
-            <div className={classes.routeArrow}>
-              <ArrowForwardIosIcon className={classes.routeArrowIcon} />
-            </div>
-            <div className={ classes.stabIndicatorContainer }>
-              <Typography className={ classes.stabIndicator }>{ quote.output.routes[0].stable ? 'Stable' : 'Volatile' }</Typography>
-            </div>
-          </div>
-          { quote && quote.output && quote.output.routeAsset &&
-            <>
-              <img
-                className={ classes.displayAssetIconSmall }
-                alt=""
-                src={ quote.output.routeAsset ? `${quote.output.routeAsset.logoURI}` : '' }
-                height='40px'
-                onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
-              />
-              <div className={ classes.line }>
-                <div className={classes.routeArrow}>
-                  <ArrowForwardIosIcon className={classes.routeArrowIcon} />
-                </div>
-                <div className={ classes.stabIndicatorContainer }>
-                  <Typography className={ classes.stabIndicator }>{ quote.output.routes[1].stable ? 'Stable' : 'Volatile' }</Typography>
-                </div>
-              </div>
-            </>
-          }
-          <img
-            className={ classes.displayAssetIconSmall }
-            alt=""
-            src={ toAssetValue ? `${toAssetValue.logoURI}` : '' }
-            height='40px'
-            onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
-          />
-        </div>
-        {
-          BigNumber(quote.priceImpact).gt(0.5) &&
-            <div className={ classes.warningContainer }>
-              <Typography className={ BigNumber(quote.priceImpact).gt(5) ? classes.warningError : classes.warningWarning } align='center'>Price impact { formatCurrency(quote.priceImpact) }%</Typography>
-            </div>
-        }
       </div>
     )
   }
@@ -390,12 +350,14 @@ function Setup() {
           <div className={ classes.inputLabel }>
             {type === 'From' ? 'Sell' : 'Buy'}
           </div>
-          <div className={ classes.balanceText }>
-            Balance: { (assetValue && assetValue.balance) ?
-              formatCurrency(assetValue.balance) + ' ' + assetValue.symbol :
-              '0.0 ' + (assetValue?.symbol || '')
-            }
-          </div>
+          {type === 'From' && (
+            <div className={ classes.balanceLabel }>
+              Balance: { (assetValue && assetValue.balance) ?
+                formatCurrency(assetValue.balance) + ' ' + assetValue.symbol :
+                '0.0 ' + (assetValue?.symbol || '')
+              }
+            </div>
+          )}
         </div>
         <div className={ `${classes.modernInputContainer} ${ (amountError || assetError) && classes.error }` }>
           <div className={ classes.tokenSelectorSection }>
@@ -416,10 +378,92 @@ function Setup() {
               }}
               variant="standard"
             />
-            <div className={ classes.usdValue }>~$0.0</div>
+            <div className={ classes.usdValue }>
+              ${(assetValue && assetValue.balance && amountValue) ? 
+                (parseFloat(amountValue) * 11.38).toFixed(2) : '0.0'}
+            </div>
           </div>
         </div>
+        {type === 'From' && (
+          <div className={ classes.percentageButtons }>
+            <button className={ classes.percentageButton } onClick={() => setFromAmountValue((assetValue.balance * 0.5).toString())}>
+              50%
+            </button>
+            <button className={ classes.percentageButton } onClick={() => setFromAmountValue(assetValue.balance)}>
+              MAX
+            </button>
+          </div>
+        )}
       </div>
+    )
+  }
+
+  const renderSlippageModal = () => {
+    const presetValues = ['0.01', '0.1', '0.5', '1', '5']
+    
+    const onSlippagePresetClick = (value) => {
+      setSlippage(value)
+    }
+
+    const onSlippageInputChange = (event) => {
+      if(event.target.value === '' || !isNaN(event.target.value)) {
+        setSlippage(event.target.value)
+      }
+    }
+
+    const closeSlippageModal = () => {
+      setSlippageModalOpen(false)
+    }
+
+    return (
+      <Dialog 
+        open={slippageModalOpen} 
+        onClose={closeSlippageModal}
+        className={classes.slippageModal}
+        PaperProps={{
+          className: classes.slippageModalPaper
+        }}
+      >
+        <div className={classes.slippageModalContent}>
+          <div className={classes.slippageModalHeader}>
+            <h3 className={classes.slippageModalTitle}>Slippage tolerance</h3>
+            <IconButton onClick={closeSlippageModal} className={classes.slippageModalClose}>
+              ×
+            </IconButton>
+          </div>
+          
+          <p className={classes.slippageModalDescription}>
+            Slippage is the difference between the current market price of a token and the price at which 
+            the actual swap is executed. Volatile tokens usually require a larger value.
+          </p>
+
+          <div className={classes.slippageInputContainer}>
+            <TextField
+              fullWidth
+              value={slippage}
+              onChange={onSlippageInputChange}
+              className={classes.slippageInput}
+              InputProps={{
+                className: classes.slippageInputField,
+                endAdornment: <span className={classes.slippageInputPercent}>%</span>,
+              }}
+              variant="outlined"
+            />
+          </div>
+
+          <div className={classes.slippagePresets}>
+            {presetValues.map((value) => (
+              <button
+                key={value}
+                className={`${classes.slippagePresetButton} ${slippage === value ? classes.slippagePresetButtonActive : ''}`}
+                onClick={() => onSlippagePresetClick(value)}
+              >
+                {value}%
+              </button>
+            ))}
+          </div>
+        </div>
+      </Dialog>
     )
   }
 
@@ -438,7 +482,7 @@ function Setup() {
       { renderMassiveInput('To', toAmountValue, toAmountError, toAmountChanged, toAssetValue, toAssetError, toAssetOptions, onAssetSelect) }
       
       { renderSwapInformation() }
-      
+
       <div className={ classes.modernActionsContainer }>
         <Button
           variant='contained'
@@ -450,6 +494,8 @@ function Setup() {
           { loading ? `Swapping...` : `Swap` }
         </Button>
       </div>
+
+      {renderSlippageModal()}
     </div>
   )
 }
@@ -570,26 +616,45 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
   }
 
   const renderAssetOption = (type, asset, idx) => {
+    const copyToClipboard = (text) => {
+      navigator.clipboard.writeText(text)
+    }
+
+    const formatAddress = (address) => {
+      return `${address.slice(0, 6)}...${address.slice(-4)}`
+    }
+
     return (
-      <MenuItem val={ asset.address } key={ asset.address+'_'+idx } className={ classes.assetSelectMenu } onClick={ () => { onLocalSelect(type, asset) } }>
-        <div className={ classes.assetSelectMenuItem }>
-          <div className={ classes.displayDualIconContainerSmall }>
+      <MenuItem val={ asset.address } key={ asset.address+'_'+idx } className={ classes.modernAssetOption } onClick={ () => { onLocalSelect(type, asset) } }>
+        <div className={ classes.modernAssetContent }>
+          <div className={ classes.modernAssetLeft }>
             <img
-              className={ classes.displayAssetIconSmall }
+              className={ classes.modernAssetIcon }
               alt=""
               src={ asset ? `${asset.logoURI}` : '' }
-              height='60px'
+              width='48'
+              height='48'
               onError={(e)=>{e.target.onerror = null; e.target.src="/tokens/unknown-logo.png"}}
             />
+            <div className={ classes.modernAssetInfo }>
+              <div className={ classes.modernAssetSymbolRow }>
+                <span className={ classes.modernAssetSymbol }>{ asset ? asset.symbol : '' }</span>
+                {asset && asset.logoURI && <span className={ classes.modernAssetVerified }>✓</span>}
+              </div>
+              <span 
+                className={ classes.modernAssetAddress } 
+                onClick={(e) => { e.stopPropagation(); copyToClipboard(asset.address) }}
+              >
+                { asset ? formatAddress(asset.address) : '' }
+              </span>
+            </div>
           </div>
-        </div>
-        <div className={ classes.assetSelectIconName }>
-          <Typography variant='h5'>{ asset ? asset.symbol : '' }</Typography>
-          <Typography variant='subtitle1' color='textSecondary'>{ asset ? asset.name : '' }</Typography>
-        </div>
-        <div className={ classes.assetSelectBalance}>
-          <Typography variant='h5'>{ (asset && asset.balance) ? formatCurrency(asset.balance) : '0.00' }</Typography>
-          <Typography variant='subtitle1' color='textSecondary'>{ 'Balance' }</Typography>
+          <div className={ classes.modernAssetRight }>
+            <span className={ classes.modernAssetBalance }>
+              { (asset && asset.balance) ? formatCurrency(asset.balance) : '0.0' }
+            </span>
+            <span className={ classes.modernAssetBalanceUsd }>$0.0</span>
+          </div>
         </div>
       </MenuItem>
     )
@@ -656,9 +721,15 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
           </div>
           <div className={ classes.assetSearchResults }>
             {
-              filteredAssetOptions ? filteredAssetOptions.sort((a, b) => {
+              filteredAssetOptions ? filteredAssetOptions.filter((asset) => {
+                // Ne montrer que les tokens whitelistés (avec logo et non local)
+                return !asset.local && asset.logoURI;
+              }).sort((a, b) => {
+                // Trier par balance
                 if(BigNumber(a.balance).lt(b.balance)) return 1;
                 if(BigNumber(a.balance).gt(b.balance)) return -1;
+                
+                // Puis trier alphabétiquement
                 if(a.symbol.toLowerCase()<b.symbol.toLowerCase()) return -1;
                 if(a.symbol.toLowerCase()>b.symbol.toLowerCase()) return 1;
                 return 0;
@@ -667,13 +738,6 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
               }) : []
             }
           </div>
-        </div>
-        <div className={ classes.manageLocalContainer }>
-          <Button
-            onClick={ toggleLocal }
-            >
-            Manage Local Assets
-          </Button>
         </div>
       </>
     )
@@ -695,9 +759,25 @@ function AssetSelect({ type, value, assetOptions, onSelect }) {
           <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
-      <Dialog onClose={ onClose } aria-labelledby="simple-dialog-title" open={ open } >
-        { !manageLocal && renderOptions() }
-        { manageLocal && renderManageLocal() }
+      <Dialog 
+        onClose={ onClose } 
+        aria-labelledby="simple-dialog-title" 
+        open={ open }
+        className={classes.tokenSelectModal}
+        PaperProps={{
+          className: classes.tokenSelectModalPaper
+        }}
+      >
+        <div className={classes.tokenSelectModalContent}>
+          <div className={classes.tokenSelectModalHeader}>
+            <h3 className={classes.tokenSelectModalTitle}>Select token</h3>
+            <IconButton onClick={onClose} className={classes.tokenSelectModalClose}>
+              ×
+            </IconButton>
+          </div>
+          { !manageLocal && renderOptions() }
+          { manageLocal && renderManageLocal() }
+        </div>
       </Dialog>
     </React.Fragment>
   )

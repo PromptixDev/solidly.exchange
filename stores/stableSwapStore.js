@@ -458,13 +458,21 @@ class Store {
   }
 
   getPair = async (addressA, addressB, stab) => {
+    try {
+      console.log("🔍 getPair called with:", addressA, addressB, stab)
 
-    if(addressA === 'FTM') {
-      addressA = CONTRACTS.WFTM_ADDRESS
-    }
-    if(addressB === 'FTM') {
-      addressB = CONTRACTS.WFTM_ADDRESS
-    }
+      if(addressA === 'FTM') {
+        addressA = CONTRACTS.WFTM_ADDRESS
+      }
+      if(addressB === 'FTM') {
+        addressB = CONTRACTS.WFTM_ADDRESS
+      }
+      if(addressA === 'XPL') {
+        addressA = CONTRACTS.WXPL_ADDRESS
+      }
+      if(addressB === 'XPL') {
+        addressB = CONTRACTS.WXPL_ADDRESS
+      }
 
     const web3 = await stores.accountStore.getWeb3Provider()
     if (!web3) {
@@ -483,15 +491,22 @@ class Store {
       (pair.token0.address.toLowerCase() == addressB.toLowerCase() && pair.token1.address.toLowerCase() == addressA.toLowerCase() && pair.isStable == stab))
     })
     if(thePair.length > 0) {
+      let totalSupply, reserve0, reserve1, balanceOf
+      
+      try {
+        const pc = new web3.eth.Contract(CONTRACTS.PAIR_ABI, thePair[0].address)
 
-      const pc = new web3.eth.Contract(CONTRACTS.PAIR_ABI, thePair[0].address)
-
-      const [ totalSupply, reserve0, reserve1, balanceOf ] = await Promise.all([
-        pc.methods.totalSupply().call(),
-        pc.methods.reserve0().call(),
-        pc.methods.reserve1().call(),
-        pc.methods.balanceOf(account.address).call(),
-      ])
+        console.log("🔍 Getting pair info for:", thePair[0].address)
+        ;[ totalSupply, reserve0, reserve1, balanceOf ] = await Promise.all([
+          pc.methods.totalSupply().call(),
+          pc.methods.reserve0().call(),
+          pc.methods.reserve1().call(),
+          pc.methods.balanceOf(account.address).call(),
+        ])
+      } catch(pairError) {
+        console.error("❌ Pair call failed for", thePair[0].address, ":", pairError.message)
+        return null
+      }
 
       const returnPair = thePair[0]
       returnPair.balance = BigNumber(balanceOf).div(10**returnPair.decimals).toFixed(parseInt(returnPair.decimals))
@@ -617,7 +632,11 @@ class Store {
     }
 
     return null
+  } catch(ex) {
+    console.error("❌ getPair error:", ex.message, "for", addressA, addressB)
+    return null
   }
+}
 
   removeBaseAsset = (asset) => {
     try {
@@ -1290,6 +1309,12 @@ class Store {
       if(token1.address === 'FTM') {
         toki1 = CONTRACTS.WFTM_ADDRESS
       }
+      if(token0.address === 'XPL') {
+        toki0 = CONTRACTS.WXPL_ADDRESS
+      }
+      if(token1.address === 'XPL') {
+        toki1 = CONTRACTS.WXPL_ADDRESS
+      }
 
       const factoryContract = new web3.eth.Contract(CONTRACTS.FACTORY_ABI, CONTRACTS.FACTORY_ADDRESS)
       const pairFor = await factoryContract.methods.getPair(toki0, toki1, isStable).call()
@@ -1459,6 +1484,16 @@ class Store {
         params = [token0.address, isStable, sendAmount0, sendAmount0Min, sendAmount1Min, account.address, deadline]
         sendValue = sendAmount1
       }
+      if(token0.address === 'XPL') {
+        func = 'addLiquidityFTM'
+        params = [token1.address, isStable, sendAmount1, sendAmount1Min, sendAmount0Min, account.address, deadline]
+        sendValue = sendAmount0
+      }
+      if(token1.address === 'XPL') {
+        func = 'addLiquidityFTM'
+        params = [token0.address, isStable, sendAmount0, sendAmount0Min, sendAmount1Min, account.address, deadline]
+        sendValue = sendAmount1
+      }
 
       const routerContract = new web3.eth.Contract(CONTRACTS.ROUTER_ABI, CONTRACTS.ROUTER_ADDRESS)
       this._callContractWait(web3, routerContract, func, params, account, gasPrice, null, null, depositTXID, async (err) => {
@@ -1474,6 +1509,12 @@ class Store {
         }
         if(token1.address === 'FTM') {
           tok1 = CONTRACTS.WFTM_ADDRESS
+        }
+        if(token0.address === 'XPL') {
+          tok0 = CONTRACTS.WXPL_ADDRESS
+        }
+        if(token1.address === 'XPL') {
+          tok1 = CONTRACTS.WXPL_ADDRESS
         }
         const pairFor = await factoryContract.methods.getPair(tok0, tok1, isStable).call()
 
@@ -1566,6 +1607,7 @@ class Store {
       }
 
       const { token0, token1, amount0, amount1, isStable, slippage } = payload.content
+      console.log("🏗️ createPairDeposit called with:", { token0: token0.symbol, token1: token1.symbol, amount0, amount1, isStable })
 
       let toki0 = token0.address
       let toki1 = token1.address
@@ -1574,6 +1616,12 @@ class Store {
       }
       if(token1.address === 'FTM') {
         toki1 = CONTRACTS.WFTM_ADDRESS
+      }
+      if(token0.address === 'XPL') {
+        toki0 = CONTRACTS.WXPL_ADDRESS
+      }
+      if(token1.address === 'XPL') {
+        toki1 = CONTRACTS.WXPL_ADDRESS
       }
 
 
@@ -1734,6 +1782,16 @@ class Store {
         params = [token0.address, isStable, sendAmount0, sendAmount0Min, sendAmount1Min, account.address, deadline]
         sendValue = sendAmount1
       }
+      if(token0.address === 'XPL') {
+        func = 'addLiquidityFTM'
+        params = [token1.address, isStable, sendAmount1, sendAmount1Min, sendAmount0Min, account.address, deadline]
+        sendValue = sendAmount0
+      }
+      if(token1.address === 'XPL') {
+        func = 'addLiquidityFTM'
+        params = [token0.address, isStable, sendAmount0, sendAmount0Min, sendAmount1Min, account.address, deadline]
+        sendValue = sendAmount1
+      }
 
       const routerContract = new web3.eth.Contract(CONTRACTS.ROUTER_ABI, CONTRACTS.ROUTER_ADDRESS)
       this._callContractWait(web3, routerContract, func, params, account, gasPrice, null, null, depositTXID, async (err) => {
@@ -1749,6 +1807,12 @@ class Store {
         }
         if(token1.address === 'FTM') {
           tok1 = CONTRACTS.WFTM_ADDRESS
+        }
+        if(token0.address === 'XPL') {
+          tok0 = CONTRACTS.WXPL_ADDRESS
+        }
+        if(token1.address === 'XPL') {
+          tok1 = CONTRACTS.WXPL_ADDRESS
         }
         const pairFor = await factoryContract.methods.getPair(tok0, tok1, isStable).call()
 
@@ -2377,6 +2441,12 @@ class Store {
       }
       if(token1.address === 'FTM') {
         addy1 = CONTRACTS.WFTM_ADDRESS
+      }
+      if(token0.address === 'XPL') {
+        addy0 = CONTRACTS.WXPL_ADDRESS
+      }
+      if(token1.address === 'XPL') {
+        addy1 = CONTRACTS.WXPL_ADDRESS
       }
 
       const res = await routerContract.methods.quoteAddLiquidity(addy0, addy1, pair.isStable, sendAmount0, sendAmount1).call()
