@@ -1,16 +1,60 @@
-.ffContainer {
-  min-height: 100vh;
+/* Main Container - Following /swap structure */
+.newLiquidityContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+  padding: 40px 20px;
+}
+
+.liquidityContainer {
+  max-width: 1200px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 0px;
-  padding-top: 100px;
-  position: relative;
+  gap: 24px;
+}
+
+.liquidityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.liquidityTitle {
+  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.createLiquidityButton {
+  background: linear-gradient(135deg, #06d3d7 0%, #4facfe 100%) !important;
+  color: #000000 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  box-shadow: 0 4px 12px rgba(6, 211, 215, 0.3) !important;
+}
+
+.createLiquidityButton:hover {
+  background: linear-gradient(135deg, #05c2c6 0%, #3f9bfd 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(6, 211, 215, 0.4) !important;
 }
 
 .notConnectedContent {
   width: calc(100%) !important;
-  background: rgba(17,23,41,0.2) !important;
+  background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(15,15,15,0.95) 100%) !important;
   text-align: center;
   padding: 50px;
   height: calc(100vh);
@@ -23,11 +67,24 @@
   border-radius: 0 !important;
   position: fixed;
   top: 0;
+  backdrop-filter: blur(20px);
 }
 
 .contentFloat {
   position: relative;
   z-index: 9;
+  max-width: 600px;
+}
+
+.welcomeIcon {
+  margin-bottom: 24px;
+  opacity: 0.8;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 .sphere {
@@ -37,11 +94,15 @@
   transform: translate(-50%, -50%);
   width: 420px;
   height: 420px;
-  
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.42;
+  background: radial-gradient(circle, rgba(6, 211, 215, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.3; }
 }
 
 .overviewIcon {
@@ -86,33 +147,67 @@
   line-height: 1.8rem !important;
 }
 
+.featuresList {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7E99B0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.featureIcon {
+  font-size: 20px;
+  filter: grayscale(0.3);
+}
+
 .buttonConnect {
-  background: rgba(6,211,215,0.3) !important;
+  background: linear-gradient(135deg, rgba(6,211,215,0.2) 0%, rgba(6,211,215,0.1) 100%) !important;
   color: rgba(6,211,215,1) !important;
-  border-radius: 60px !important;
-  padding: 12px 24px 14px 24px !important;
-  font-weight: 700 !important;
+  border-radius: 16px !important;
+  padding: 16px 32px !important;
+  font-weight: 600 !important;
   text-transform: none !important;
-  border: 1px solid rgba(6,211,215,1) !important;
-  transform: scale(0.85);
-  -webkit-transition: all 300ms ease-out;
-  -moz-transition: all 300ms ease-out;
-  -ms-transition: all 300ms ease-out;
-  -o-transition: all 300ms ease-out;
-  transition: all 300ms ease-out;
+  border: 1px solid rgba(6,211,215,0.3) !important;
+  font-size: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 16px rgba(6, 211, 215, 0.2) !important;
 }
 
 .buttonConnect:hover {
-  background: rgba(6,211,215,1) !important;
-  color: #111729 !important;
-  text-transform: none !important;
-  border: 1px solid rgba(6,211,215,1) !important;
-  transform: scale(0.9);
-  -webkit-transition: all 300ms ease-out;
-  -moz-transition: all 300ms ease-out;
-  -ms-transition: all 300ms ease-out;
-  -o-transition: all 300ms ease-out;
-  transition: all 300ms ease-out;
+  background: linear-gradient(135deg, rgba(6,211,215,0.3) 0%, rgba(6,211,215,0.2) 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(6,211,215,0.6) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(6, 211, 215, 0.3) !important;
+}
+
+.walletIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(6, 211, 215, 0.2);
+  transition: all 0.3s ease;
+}
+
+.buttonConnect:hover .walletIcon {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 @media screen and (max-width: 1600px) {
@@ -142,6 +237,39 @@
   }
 }
 
+@media screen and (max-width: 960px) {
+  .liquidityHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .createButton {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .pageTitle {
+    font-size: 28px !important;
+  }
+
+  .connected {
+    padding: 0 16px;
+  }
+
+  .statsContainer {
+    margin-bottom: 32px !important;
+  }
+
+  .featuresList {
+    gap: 24px;
+  }
+
+  .feature {
+    font-size: 14px;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .mainHeadingNC {
     text-align: center !important;
@@ -159,5 +287,41 @@
 
   .ffContainer {
     padding-top: 110px;
+  }
+
+  .pageTitle {
+    font-size: 24px !important;
+  }
+
+  .pageDescription {
+    font-size: 14px !important;
+  }
+
+  .statNumber {
+    font-size: 28px !important;
+  }
+
+  .statLabel {
+    font-size: 12px !important;
+  }
+
+  .featuresList {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .feature {
+    font-size: 14px;
+  }
+
+  .buttonConnect {
+    padding: 14px 24px !important;
+    font-size: 14px !important;
+  }
+
+  .walletIcon {
+    width: 20px !important;
+    height: 20px !important;
   }
 }

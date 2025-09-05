@@ -231,10 +231,10 @@ function Header(props) {
       <div className={classes.headerContainer}>
 
         <div className={classes.logoContainer}>
-          <a onClick={() => router.push('/home')}><SiteLogo className={classes.appLogo} /></a>
+          {/* Logo retiré du header car maintenant dans la sidebar */}
         </div>
 
-        <Navigation changeTheme={props.changeTheme} />
+        {/* Navigation retirée du header car remplacée par la sidebar */}
 
         <div style={{ width: '260px', display: 'flex', justifyContent: 'flex-end' }}>
 

@@ -11,7 +11,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 body {
-  background-color: #061415 !important;
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%) !important;
+  min-height: 100vh;
+}
+
+html {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%) !important;
+}
+
+/* Styles globaux pour harmoniser avec la sidebar */
+.MuiPaper-root {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.MuiCard-root {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Styles pour les conteneurs principaux */
+.container, .content {
+  background: transparent !important;
 }
 
 button {

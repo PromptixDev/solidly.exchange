@@ -678,9 +678,10 @@
   width: 100%;
   margin: 0 auto;
   padding: 32px;
-  background: #182627;
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
-  border: 1px solid rgba(42, 56, 57, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .modernLiquidityHeader {
@@ -734,16 +735,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  background: #1e2d2f;
-  border: 1px solid #2a3839;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .modernTokenSelectorButton:hover {
-  border-color: #334142;
-  background: #243031;
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .modernTokenSelectorContent {
@@ -800,15 +801,15 @@
 
 .modernPoolTypeCard {
   padding: 24px;
-  background: #1e2d2f;
-  border: 1px solid #2a3839;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .modernPoolTypeCard:hover {
-  border-color: #334142;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .modernPoolTypeCardActive {
@@ -842,8 +843,8 @@
 
 /* Buttons */
 .modernNextButton {
-  background: #06d3d7 !important;
-  color: #061415 !important;
+  background: linear-gradient(135deg, #06d3d7 0%, #4facfe 100%) !important;
+  color: #000000 !important;
   font-weight: 600 !important;
   font-size: 16px !important;
   padding: 16px 32px !important;
@@ -851,15 +852,21 @@
   text-transform: none !important;
   width: 100% !important;
   margin-top: 8px !important;
+  box-shadow: 0 4px 12px rgba(6, 211, 215, 0.3) !important;
+  transition: all 0.2s ease !important;
 }
 
 .modernNextButton:hover {
-  background: #05b8bb !important;
+  background: linear-gradient(135deg, #05c2c6 0%, #3f9bfd 100%) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(6, 211, 215, 0.4) !important;
 }
 
 .modernNextButton:disabled {
-  background: rgba(6, 211, 215, 0.3) !important;
-  color: rgba(6, 20, 21, 0.7) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .modernCreateButton {
@@ -877,6 +884,766 @@
   background: linear-gradient(135deg, #52D4A4 0%, #319972 100%) !important;
 }
 
+/* Amount Input Styles */
+.modernAmountContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.modernAmountInput {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modernAmountHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modernAmountLabel {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+.modernAmountBalance {
+  color: #7E99B0 !important;
+  font-size: 14px !important;
+  cursor: pointer;
+}
+
+.modernAmountBalance:hover {
+  color: #06d3d7 !important;
+}
+
+.modernAmountInputField {
+  position: relative;
+}
+
+.modernAmountTextField {
+  background: #1e2d2f !important;
+  border-radius: 12px !important;
+}
+
+.modernAmountTextField input {
+  color: #ffffff !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  padding: 20px 16px !important;
+}
+
+.modernAmountTextField .MuiOutlinedInput-notchedOutline {
+  border-color: #2a3839 !important;
+}
+
+.modernAmountTextField:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #334142 !important;
+}
+
+.modernAmountTextField.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #06d3d7 !important;
+}
+
+.modernAmountToken {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(6, 211, 215, 0.1);
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
+.modernAmountTokenIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.modernAmountTokenSymbol {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modernAmountActions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.modernAmountMaxButton {
+  background: rgba(6, 211, 215, 0.2) !important;
+  color: #06d3d7 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 4px 12px !important;
+  border-radius: 6px !important;
+  text-transform: none !important;
+  min-width: auto !important;
+}
+
+.modernAmountMaxButton:hover {
+  background: rgba(6, 211, 215, 0.3) !important;
+}
+
+.modernAmountDivider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.modernAmountDividerLine {
+  flex: 1;
+  height: 1px;
+  background: #2a3839;
+}
+
+.modernAmountDividerIcon {
+  width: 32px;
+  height: 32px;
+  background: #1e2d2f;
+  border: 1px solid #2a3839;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7E99B0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Pool Info Styles */
+.modernPoolInfo {
+  background: rgba(6, 211, 215, 0.05);
+  border: 1px solid rgba(6, 211, 215, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.modernPoolInfoTitle {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
+}
+
+.modernPoolInfoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.modernPoolInfoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modernPoolInfoLabel {
+  color: #7E99B0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modernPoolInfoValue {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Create Actions */
+.modernCreateActions {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.modernBackButton {
+  background: transparent !important;
+  color: #7E99B0 !important;
+  border: 1px solid #2a3839 !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 16px 32px !important;
+  border-radius: 12px !important;
+  text-transform: none !important;
+  flex: 1 !important;
+}
+
+.modernBackButton:hover {
+  background: rgba(126, 153, 176, 0.1) !important;
+  border-color: #334142 !important;
+}
+
+.modernCreateButton {
+  background: linear-gradient(135deg, #48CC9A 0%, #2D9F6F 100%) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 16px 32px !important;
+  border-radius: 12px !important;
+  text-transform: none !important;
+  flex: 2 !important;
+  position: relative !important;
+}
+
+.modernCreateButtonLoading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modernSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Token Select Modal Styles */
+.tokenSelectModal .MuiDialog-paper {
+  background: #182627 !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(42, 56, 57, 0.3) !important;
+  max-width: 480px !important;
+  width: 100% !important;
+  margin: 16px !important;
+}
+
+.tokenSelectModalContent {
+  padding: 0 !important;
+}
+
+.tokenSelectModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0 24px;
+}
+
+.tokenSelectModalTitle {
+  color: #ffffff !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.tokenSelectModalClose {
+  color: #7E99B0 !important;
+  font-size: 24px !important;
+  padding: 8px !important;
+}
+
+.tokenSelectModalClose:hover {
+  background: rgba(126, 153, 176, 0.1) !important;
+}
+
+.searchInline {
+  padding: 0 24px 16px 24px;
+}
+
+.searchInputField {
+  background: #1e2d2f !important;
+  border-radius: 12px !important;
+}
+
+.searchInputField input {
+  color: #ffffff !important;
+  padding: 16px !important;
+}
+
+.searchInputField .MuiOutlinedInput-notchedOutline {
+  border-color: #2a3839 !important;
+}
+
+.searchInputField:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #334142 !important;
+}
+
+.searchInputField.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #06d3d7 !important;
+}
+
+.searchIcon {
+  color: #7E99B0 !important;
+}
+
+.modernAssetOption {
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modernAssetOption:hover {
+  background: rgba(6, 211, 215, 0.05) !important;
+}
+
+.modernAssetContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modernAssetLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modernAssetIcon {
+  border-radius: 50%;
+}
+
+.modernAssetInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modernAssetSymbolRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modernAssetSymbol {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modernAssetVerified {
+  color: #48CC9A;
+  font-size: 12px;
+}
+
+.modernAssetAddress {
+  color: #7E99B0;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.modernAssetAddress:hover {
+  color: #06d3d7;
+}
+
+.modernAssetRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.modernAssetBalance {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modernAssetBalanceUsd {
+  color: #7E99B0;
+  font-size: 12px;
+}
+
+/* Following /swap structure for liquidity create */
+.liquidityInputSection {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  background: #182627;
+}
+
+.inputHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.inputLabel {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.balanceLabel {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.balanceLabel:hover {
+  color: #06d3d7;
+}
+
+/* Modern Token Selector - Following /swap */
+.modernTokenSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a3839;
+  border: 1px solid #2a3839;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  justify-content: space-between;
+  min-width: 140px;
+}
+
+.modernTokenSelector:hover {
+  background: #334142;
+  border-color: #334142;
+}
+
+.tokenIcon {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tokenSymbol {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.dropdownIcon {
+  color: #7E99B0;
+  flex-shrink: 0;
+}
+
+/* Modern Input Container - Following /swap */
+.modernInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  width: 100%;
+  background: #182627;
+  border: 1px solid #2a3839;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.modernInputContainer:hover {
+  border-color: #2a3839;
+  background: #182627;
+}
+
+.tokenSelectorSection {
+  display: flex;
+  align-items: center;
+  min-width: 140px;
+}
+
+.amountInputSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 16px;
+}
+
+.modernInput {
+  font-size: 28px !important;
+  color: #ffffff !important;
+  text-align: right !important;
+  background: transparent !important;
+}
+
+.modernInput input {
+  text-align: right !important;
+  padding: 0 !important;
+}
+
+.usdValue {
+  color: #7E99B0;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Pool Type Section */
+.poolTypeSection {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  background: #182627;
+}
+
+.poolTypeButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.poolTypeButton {
+  flex: 1;
+  background: #2a3839;
+  border: 1px solid #2a3839;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.poolTypeButton:hover {
+  background: #334142;
+  border-color: #334142;
+}
+
+.poolTypeButtonActive {
+  background: #334142 !important;
+  border-color: #06d3d7 !important;
+}
+
+.poolTypeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.poolTypeTitle {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.poolTypeDescription {
+  color: #7E99B0;
+  font-size: 12px;
+}
+
+/* Swap Arrow - Following /swap */
+.swapArrowContainer {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: -8px 0;
+  position: relative;
+  z-index: 10;
+}
+
+.swapArrowButton {
+  background: #2a3839;
+  border: 1px solid #2a3839;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swapArrowButton:hover {
+  background: #334142;
+  border-color: #334142;
+}
+
+.swapArrowIcon {
+  color: #ffffff;
+}
+
+/* Modern Price Info - Following /swap */
+.modernPriceInfo {
+  margin-top: 16px;
+  padding: 0;
+}
+
+.priceInfoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(42, 56, 57, 0.2);
+}
+
+.priceInfoRow:last-child {
+  border-bottom: none;
+}
+
+.priceLabel {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.priceValue {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Modern Actions Container - Following /swap */
+.modernActionsContainer {
+  padding-top: 20px;
+}
+
+.modernSwapButton {
+  width: 100% !important;
+  background: #2a3839 !important;
+  color: #ffffff !important;
+  border: 1px solid #2a3839 !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.modernSwapButton:hover {
+  background: #334142 !important;
+  border-color: #334142 !important;
+  transform: translateY(-1px) !important;
+}
+
+.modernSwapButton:disabled {
+  background: rgba(42, 56, 57, 0.5) !important;
+  border-color: rgba(42, 56, 57, 0.5) !important;
+  transform: none !important;
+}
+
+/* Token Select Modal - Following /swap */
+.tokenSelectModal .MuiDialog-paper {
+  background: #1e2d2f !important;
+  border-radius: 16px !important;
+  max-width: 480px !important;
+  width: 100% !important;
+  max-height: 600px !important;
+}
+
+.tokenSelectModalContent {
+  padding: 0;
+}
+
+.tokenSelectModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid rgba(42, 56, 57, 0.3);
+}
+
+.tokenSelectModalTitle {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.tokenSelectModalClose {
+  color: #ffffff !important;
+  padding: 4px !important;
+  font-size: 24px !important;
+}
+
+/* Modern Asset Option - Following /swap */
+.modernAssetOption {
+  padding: 16px 24px !important;
+  border-bottom: 1px solid rgba(42, 56, 57, 0.2) !important;
+  margin: 0 !important;
+  min-height: auto !important;
+}
+
+.modernAssetOption:hover {
+  background: rgba(42, 56, 57, 0.3) !important;
+}
+
+.modernAssetContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.modernAssetLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.modernAssetIcon {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.modernAssetInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modernAssetSymbolRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modernAssetSymbol {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modernAssetVerified {
+  color: #06d3d7;
+  font-size: 12px;
+  background: rgba(6, 211, 215, 0.2);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modernAssetAddress {
+  color: #7E99B0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modernAssetAddress:hover {
+  color: #06d3d7;
+}
+
+.modernAssetRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.modernAssetBalance {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modernAssetBalanceUsd {
+  color: #7E99B0;
+  font-size: 12px;
+}
+
 @media screen and (max-width: 960px) {
   .container {
     margin-top: 0px;
@@ -892,5 +1659,34 @@
   
   .modernLiquidityTitle {
     font-size: 20px !important;
+  }
+
+  .modernCreateActions {
+    flex-direction: column;
+  }
+
+  .modernBackButton,
+  .modernCreateButton {
+    flex: 1 !important;
+  }
+
+  .modernAmountTextField input {
+    font-size: 20px !important;
+  }
+
+  .modernPoolInfoGrid {
+    gap: 8px;
+  }
+
+  .poolTypeButtons {
+    flex-direction: column;
+  }
+
+  .modernInput {
+    font-size: 24px !important;
+  }
+
+  .tokenSymbol {
+    font-size: 14px;
   }
 }

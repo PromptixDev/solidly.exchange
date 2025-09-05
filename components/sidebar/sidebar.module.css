@@ -1,0 +1,287 @@
+.sidebarContainer {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.sidebarHeader {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.logoContainer:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+  margin-right: 12px;
+}
+
+.brandText {
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+}
+
+.menuSection {
+  flex: 1;
+  padding: 24px 20px;
+}
+
+.sectionTitle {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px !important;
+  padding-left: 12px;
+}
+
+.menuItems {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.menuItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.menuItemActive {
+  background: linear-gradient(135deg, #06d3d7 0%, #4facfe 100%);
+  color: #000000;
+}
+
+.menuItemActive:hover {
+  background: linear-gradient(135deg, #06d3d7 0%, #4facfe 100%);
+}
+
+.menuIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menuIcon svg {
+  width: 20px;
+  height: 20px;
+  fill: rgba(255, 255, 255, 0.7);
+  transition: fill 0.2s ease;
+}
+
+.menuItemActive .menuIcon svg {
+  fill: #000000;
+}
+
+.menuText {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  transition: color 0.2s ease;
+}
+
+.menuItemActive .menuText {
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+.proSection {
+  margin: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.proIcon {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.proTitle {
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin-bottom: 8px !important;
+}
+
+.proDescription {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
+  line-height: 1.4;
+  margin-bottom: 16px !important;
+}
+
+.proButton {
+  background: linear-gradient(135deg, #06d3d7 0%, #4facfe 100%) !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: 12px !important;
+  width: 100%;
+  box-shadow: none !important;
+}
+
+.proButton:hover {
+  background: linear-gradient(135deg, #05c2c6 0%, #3f9bfd 100%) !important;
+  box-shadow: 0 4px 12px rgba(6, 211, 215, 0.3) !important;
+}
+
+.sidebarFooter {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footerIcons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footerIcon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
+}
+
+.footerIcon:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
+  .sidebarContainer {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebarContainer.open {
+    transform: translateX(0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebarContainer {
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .menuText {
+    font-size: 16px !important;
+  }
+  
+  .menuItem {
+    padding: 16px;
+  }
+  
+  .proSection {
+    margin: 16px;
+    padding: 16px;
+  }
+}
+
+/* Scrollbar personnalisé */
+.sidebarContainer::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebarContainer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebarContainer::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.sidebarContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Animation pour les éléments du menu */
+.menuItem {
+  animation: slideInLeft 0.3s ease forwards;
+}
+
+.menuItem:nth-child(1) { animation-delay: 0.1s; }
+.menuItem:nth-child(2) { animation-delay: 0.15s; }
+.menuItem:nth-child(3) { animation-delay: 0.2s; }
+.menuItem:nth-child(4) { animation-delay: 0.25s; }
+.menuItem:nth-child(5) { animation-delay: 0.3s; }
+.menuItem:nth-child(6) { animation-delay: 0.35s; }
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Effet de glow pour l'élément actif */
+.menuItemActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  background: #ffffff;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Style pour les icônes avec effet hover */
+.menuItem:hover .menuIcon svg {
+  fill: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+}
+
+.menuItem:hover .menuText {
+  color: rgba(255, 255, 255, 1) !important;
+}

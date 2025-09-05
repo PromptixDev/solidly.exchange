@@ -2,6 +2,7 @@ import Head from "next/head";
 import classes from "./layout.module.css";
 import Header from "../header";
 import Navigation from "../navigation";
+import Sidebar from "../sidebar";
 import SnackbarController from "../snackbar";
 
 export default function Layout({
@@ -31,12 +32,16 @@ export default function Layout({
         <meta name="og:title" content="Fuseon - The Central Liquidity Hub" />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <div className={classes.content}>
+      
+      {/* Nouvelle sidebar */}
+      {!configure && <Sidebar changeTheme={changeTheme} />}
+      
+      <div className={`${classes.content} ${!configure ? classes.contentWithSidebar : ''}`}>
         {!configure && (
           <Header backClicked={backClicked} changeTheme={changeTheme} title={ title } />
         )}
         <SnackbarController />
-        <main>{children}</main>
+        <main className={classes.mainContent}>{children}</main>
       </div>
     </div>
   );
