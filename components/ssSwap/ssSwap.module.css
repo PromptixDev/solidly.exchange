@@ -1012,25 +1012,43 @@
   text-decoration: underline;
 }
 
-/* Slippage Modal */
-.slippageModal .MuiDialog-paper {
-  background: rgba(26, 26, 26, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 16px !important;
-  max-width: 280px !important;
-  width: 280px !important;
+/* Slippage Modal - REAL CLASSES */
+.slippageModal {
+  z-index: 1300 !important;
+}
+
+.slippageModal .MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.slippageModal .MuiDialog-container {
+  align-items: center !important;
+  justify-content: center !important;
+  padding-left: 140px !important;
+  margin-left: 0px !important;
+}
+
+.slippageModalPaper {
+  background: #1a1a1a !important;
+  background-color: #1a1a1a !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 20px !important;
+  max-width: 320px !important;
+  width: 320px !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
 }
 
 .slippageModalContent {
-  padding: 20px;
+  padding: 18px;
 }
 
 .slippageModalHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .slippageModalTitle {
@@ -1047,14 +1065,14 @@
 }
 
 .slippageModalDescription {
-  color: #7E99B0;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   line-height: 1.5;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .slippageInputContainer {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .slippageInputField {
@@ -1113,27 +1131,53 @@
   color: #ffffff !important;
 }
 
-/* Token Select Modal */
-.tokenSelectModal .MuiDialog-paper {
-  background: rgba(26, 26, 26, 0.95) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 16px !important;
+/* Token Select Modal - REAL CLASSES */
+.tokenSelectModal {
+  z-index: 1300 !important;
+}
+
+.tokenSelectModal .MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.tokenSelectModal .MuiDialog-container {
+  align-items: center !important;
+  justify-content: center !important;
+  padding-left: 140px !important;
+  margin-left: 0px !important;
+}
+
+.tokenSelectModalPaper {
+  background: #1a1a1a !important;
+  background-color: #1a1a1a !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 20px !important;
   max-width: 480px !important;
-  width: 100% !important;
+  width: 480px !important;
   max-height: 600px !important;
+  margin: 0 !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  overflow: hidden !important;
 }
 
 .tokenSelectModalContent {
   padding: 0;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.tokenSelectModalContent::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .tokenSelectModalHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 24px 16px 24px;
-  border-bottom: 1px solid rgba(42, 56, 57, 0.3);
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tokenSelectModalTitle {
@@ -1151,14 +1195,15 @@
 
 /* Modern Asset Option */
 .modernAssetOption {
-  padding: 16px 24px !important;
-  border-bottom: 1px solid rgba(42, 56, 57, 0.2) !important;
+  padding: 12px 20px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   margin: 0 !important;
   min-height: auto !important;
+  transition: all 0.2s ease !important;
 }
 
 .modernAssetOption:hover {
-  background: rgba(42, 56, 57, 0.3) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
 .modernAssetContent {
