@@ -10,6 +10,7 @@ import lightTheme from '../theme/light';
 import darkTheme from '../theme/dark';
 
 import Configure from './configure';
+import { Providers } from '../components/providers';
 
 import stores from '../stores/index.js';
 
@@ -76,16 +77,18 @@ export default function MyApp({ Component, pageProps }) {
         <title>Fuseon - The Central Liquidity Hub</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={themeConfig}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        { validateConfigured() && (
-          <Layout changeTheme={changeTheme}>
-            <Component {...pageProps} changeTheme={changeTheme} />
-          </Layout>
-        )}
-        {!validateConfigured() && <Configure {...pageProps} />}
-      </ThemeProvider>
+      <Providers>
+        <ThemeProvider theme={themeConfig}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          { validateConfigured() && (
+            <Layout changeTheme={changeTheme}>
+              <Component {...pageProps} changeTheme={changeTheme} />
+            </Layout>
+          )}
+          {!validateConfigured() && <Configure {...pageProps} />}
+        </ThemeProvider>
+      </Providers>
     </React.Fragment>
   );
 }

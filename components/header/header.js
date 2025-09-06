@@ -17,7 +17,7 @@ import { ACTIONS } from '../../stores/constants';
 
 import stores from '../../stores';
 import { formatAddress } from '../../utils';
-import { connectCustomWalletConnect } from '../../stores/connectors';
+import { WalletConnect } from '../WalletConnect';
 
 import classes from './header.module.css';
 
@@ -144,7 +144,6 @@ function Header(props) {
   const [darkMode, setDarkMode] = useState(props.theme.palette.type === 'dark' ? true : false);
   const [unlockOpen, setUnlockOpen] = useState(false);
   const [chainInvalid, setChainInvalid] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [transactionQueueLength, setTransactionQueueLength] = useState(0)
 
   useEffect(() => {
@@ -183,37 +182,6 @@ function Header(props) {
     setUnlockOpen(true);
   };
 
-  const onConnect = async () => {
-    if (account && account.address) {
-      // Si déjà connecté, déconnecter
-      onDisconnect();
-    } else {
-      // Si pas connecté, ouvrir Reown pour choisir le provider
-      try {
-        setLoading(true);
-        const provider = await connectCustomWalletConnect();
-        
-        if (provider && provider.accounts && provider.accounts.length > 0) {
-          stores.accountStore.setStore({
-            account: { address: provider.accounts[0] },
-            web3context: { library: { provider: provider } }
-          });
-          stores.emitter.emit(ACTIONS.ACCOUNT_CONFIGURED);
-        }
-      } catch (error) {
-        console.error('Erreur connexion:', error);
-        stores.emitter.emit(ACTIONS.ERROR, error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
-  const onDisconnect = () => {
-    stores.accountStore.setStore({ account: {}, web3context: null });
-    stores.emitter.emit(ACTIONS.CONNECTION_DISCONNECTED);
-    handleClose(); // Fermer le menu après déconnexion
-  };
 
   const closeUnlock = () => {
     setUnlockOpen(false);
@@ -292,54 +260,7 @@ function Header(props) {
             </IconButton>
           }
 
-          {/* Bouton Connect/Disconnect suivant la charte graphique */}
-          {account && account.address ? (
-            <div>
-              <Button
-                disableElevation
-                className={classes.accountButton}
-                variant="contained"
-                color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
-                aria-controls="wallet-menu" 
-                aria-haspopup="true" 
-                onClick={handleClick}
-                disabled={loading}>
-                <div className={`${classes.accountIcon} ${classes.metamask}`}></div>
-                <Typography className={classes.headBtnTxt}>
-                  {formatAddress(account.address)}
-                </Typography>
-                <ArrowDropDownIcon className={classes.ddIcon} />
-              </Button>
-
-              <StyledMenu
-                id="wallet-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                className={classes.userMenu}
-              >
-                <StyledMenuItem onClick={onDisconnect}>
-                  <ListItemIcon className={classes.userMenuIcon}>
-                    <AccountBalanceWalletOutlinedIcon fontSize="small" />
-                  </ListItemIcon>
-                  <ListItemText className={classes.userMenuText} primary="Disconnect" />
-                </StyledMenuItem>
-              </StyledMenu>
-            </div>
-          ) : (
-            <Button
-              disableElevation
-              className={classes.accountButton}
-              variant="contained"
-              color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
-              onClick={onConnect}
-              disabled={loading}>
-              <Typography className={classes.headBtnTxt}>
-                {loading ? 'Loading...' : 'Connect'}
-              </Typography>
-            </Button>
-          )}
+          <WalletConnect />
 
         </div>
         {unlockOpen && <Unlock modalOpen={unlockOpen} closeModal={closeUnlock} />}
