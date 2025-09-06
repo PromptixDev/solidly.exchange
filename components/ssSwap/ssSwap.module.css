@@ -1,25 +1,41 @@
 .newSwapContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   min-height: calc(100vh - 120px);
   background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
-  padding: 40px 20px;
+  padding: 30px 20px 40px 20px;
 }
 
 .swapContainer {
-  max-width: 520px;
+  max-width: 480px;
   width: 100%;
-  padding: 28px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
-  gap: 16px;
-  backdrop-filter: blur(10px);
+  gap: 14px;
+  box-shadow: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Header Section */
+.swapHeader {
+  margin-bottom: 8px;
+}
+
+.swapTitle {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 !important;
+  margin-bottom: 20px !important;
 }
 
 .smallerText {
@@ -37,10 +53,11 @@
 }
 
 .inputLabel {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  margin-bottom: 12px !important;
 }
 
 .swapInputSection {
@@ -58,19 +75,19 @@
 }
 
 .balanceLabel {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   cursor: pointer;
   transition: color 0.2s ease;
 }
 .balanceLabel:hover {
-  color: #06d3d7;
+  color: rgba(255, 255, 255, 1) !important;
 }
 
 .balanceText {
-  color: #ffffff;
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
   cursor: pointer;
 }
 
@@ -97,17 +114,26 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 12px;
+  border-radius: 20px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  transition: all 0.2s ease;
+  background: rgba(26, 26, 26, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(10px);
 }
 
 .modernInputContainer:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(26, 26, 26, 0.8);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modernInputContainer:focus-within {
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
 .error {
@@ -739,18 +765,38 @@
 .modernTokenSelector {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 8px 12px;
+  gap: 6px;
+  background: rgba(26, 26, 26, 0.8);
+  border: none;
+  border-radius: 10px;
+  padding: 6px 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  min-height: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.modernTokenSelector::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .modernTokenSelector:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(26, 26, 26, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.modernTokenSelector:hover::before {
+  opacity: 1;
 }
 
 .tokenIcon {
@@ -759,14 +805,14 @@
 }
 
 .tokenSymbol {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
   margin-right: 4px;
 }
 
 .dropdownIcon {
-  color: #7E99B0;
+  color: rgba(255, 255, 255, 0.6) !important;
   flex-shrink: 0;
 }
 
@@ -780,21 +826,24 @@
 }
 
 .modernInput {
-  font-size: 28px !important;
-  color: #ffffff !important;
+  font-size: 24px !important;
+  color: rgba(255, 255, 255, 0.9) !important;
   text-align: right !important;
   background: transparent !important;
+  font-weight: 500 !important;
 }
 
 .modernInput input {
   text-align: right !important;
   padding: 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
 }
 
 .usdValue {
-  color: #7E99B0;
-  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 12px !important;
   margin-top: 4px;
+  font-weight: 400 !important;
 }
 
 /* Swap Arrow */
@@ -802,56 +851,86 @@
   display: flex;
   justify-content: center;
   padding: 0;
-  margin: -8px 0;
+  margin: 8px 0;
   position: relative;
   z-index: 10;
 }
 
 .swapArrowButton {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: transparent;
+  border: none;
   padding: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .swapArrowButton:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: rotate(180deg);
+  transform: translateY(-2px) rotate(180deg);
 }
 
 .swapArrowIcon {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 1) !important;
+  font-size: 28px !important;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.swapArrowButton:hover .swapArrowIcon {
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* Modern Swap Button */
 .modernActionsContainer {
-  padding-top: 20px;
+  padding-top: 12px;
 }
 
 .modernSwapButton {
   width: 100% !important;
-  background: linear-gradient(135deg, #06d3d7 0%, #4facfe 100%) !important;
-  color: #000000 !important;
-  border: none !important;
-  border-radius: 12px !important;
-  padding: 16px !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 16px !important;
+  padding: 12px !important;
   font-size: 16px !important;
   font-weight: 600 !important;
   text-transform: none !important;
-  transition: all 0.2s ease !important;
-  box-shadow: 0 4px 12px rgba(6, 211, 215, 0.3) !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  backdrop-filter: blur(10px) !important;
+  overflow: hidden !important;
+}
+
+.modernSwapButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .modernSwapButton:hover {
-  background: linear-gradient(135deg, #05c2c6 0%, #3f9bfd 100%) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 16px rgba(6, 211, 215, 0.4) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
+  color: rgba(255, 255, 255, 1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+}
+
+.modernSwapButton:hover::before {
+  opacity: 1;
+}
+
+.modernSwapButton span {
+  position: relative;
+  z-index: 1;
 }
 
 .modernSwapButton:disabled {
@@ -871,21 +950,21 @@
 }
 
 .percentageButton {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  padding: 6px 12px;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .percentageButton:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  color: rgba(255, 255, 255, 1) !important;
 }
 
 
@@ -908,15 +987,15 @@
 }
 
 .priceLabel {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
 }
 
 .priceValue {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
 }
 
 .priceValueWithSlippage {
@@ -935,7 +1014,9 @@
 
 /* Slippage Modal */
 .slippageModal .MuiDialog-paper {
-  background: #1e2d2f !important;
+  background: rgba(26, 26, 26, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px !important;
   max-width: 280px !important;
   width: 280px !important;
@@ -977,7 +1058,7 @@
 }
 
 .slippageInputField {
-  background: #2a3839 !important;
+  background: rgba(255, 255, 255, 0.05) !important;
   border-radius: 12px !important;
   color: #ffffff !important;
   font-size: 16px !important;
@@ -985,15 +1066,15 @@
 }
 
 .slippageInputField .MuiOutlinedInput-notchedOutline {
-  border: 1px solid #2a3839 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
 .slippageInputField:hover .MuiOutlinedInput-notchedOutline {
-  border-color: #334142 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .slippageInputField.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #06d3d7 !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .slippageInputPercent {
@@ -1009,8 +1090,8 @@
 
 .slippagePresetButton {
   flex: 1;
-  background: #2a3839;
-  border: 1px solid #2a3839;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 12px;
   color: #7E99B0;
@@ -1021,20 +1102,22 @@
 }
 
 .slippagePresetButton:hover {
-  background: #334142;
-  border-color: #334142;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
 .slippagePresetButtonActive {
-  background: #06d3d7 !important;
-  border-color: #06d3d7 !important;
-  color: #061415 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
 }
 
 /* Token Select Modal */
 .tokenSelectModal .MuiDialog-paper {
-  background: #1e2d2f !important;
+  background: rgba(26, 26, 26, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px !important;
   max-width: 480px !important;
   width: 100% !important;
