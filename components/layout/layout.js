@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import classes from "./layout.module.css";
 import Header from "../header";
 import Navigation from "../navigation";
@@ -12,6 +13,8 @@ export default function Layout({
   changeTheme,
   title
 }) {
+  const router = useRouter();
+  const isHomePage = router.pathname === '/home';
   return (
     <div className={classes.container}>
       <Head>
@@ -33,15 +36,15 @@ export default function Layout({
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       
-      {/* Nouvelle sidebar */}
-      {!configure && <Sidebar changeTheme={changeTheme} />}
+      {/* Nouvelle sidebar - cachée sur la page d'accueil */}
+      {!configure && !isHomePage && <Sidebar changeTheme={changeTheme} />}
       
-      <div className={`${classes.content} ${!configure ? classes.contentWithSidebar : ''}`}>
-        {!configure && (
+      <div className={`${classes.content} ${!configure && !isHomePage ? classes.contentWithSidebar : ''}`}>
+        {!configure && !isHomePage && (
           <Header backClicked={backClicked} changeTheme={changeTheme} title={ title } />
         )}
-        <SnackbarController />
-        <main className={classes.mainContent}>{children}</main>
+        {!isHomePage && <SnackbarController />}
+        <main className={isHomePage ? classes.homeContent : classes.mainContent}>{children}</main>
       </div>
     </div>
   );

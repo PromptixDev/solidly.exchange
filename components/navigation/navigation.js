@@ -83,8 +83,9 @@ function Navigation(props) {
   const [warningOpen, setWarningOpen] = useState(false);
 
   useEffect(function () {
-    const localStorageWarningAccepted = window.localStorage.getItem('fixed.forex-warning-accepted');
-    setWarningOpen(localStorageWarningAccepted ? localStorageWarningAccepted !== 'accepted' : true);
+    // Désactiver complètement le warning
+    setWarningOpen(false);
+    window.localStorage.setItem('fixed.forex-warning-accepted', 'accepted');
   }, []);
 
   const openWarning = () => {
