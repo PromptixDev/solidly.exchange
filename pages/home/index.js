@@ -11,33 +11,53 @@ function Home({ changeTheme }) {
     setShowContent(true);
   }, []);
 
-  // Suppression de la section stats
+  const stats = [
+    { label: "Total Value Locked", value: "$2.4B+", description: "Across all pools" },
+    { label: "24h Trading Volume", value: "$45M+", description: "Daily volume" },
+    { label: "Active Users", value: "12K+", description: "Monthly active" }
+  ];
 
   const features = [
     {
-      title: "Low-Cost Trading",
-      subtitle: "Trade with minimal fees",
-      description: "Experience the lowest trading fees on Plasma Network with optimized routing and deep liquidity pools.",
+      title: "Ultra-Low Fees",
+      subtitle: "Optimized for efficiency",
+      description: "Experience near-zero slippage with our advanced AMM algorithms and concentrated liquidity pools on Plasma Network.",
       icon: "⚡"
     },
     {
-      title: "Provide Liquidity",
-      subtitle: "Earn rewards as a liquidity provider",
-      description: "Supply liquidity to earn trading fees and FUSEON rewards. Multiple pools and farming opportunities available.",
-      icon: "🌊"
+      title: "Yield Farming",
+      subtitle: "Maximize your returns",
+      description: "Earn competitive yields through our sophisticated liquidity mining programs and staking mechanisms.",
+      icon: "🚀"
     },
     {
-      title: "Advanced Features",
-      subtitle: "Professional trading tools",
-      description: "Access advanced trading features including limit orders, portfolio management, and yield optimization strategies.",
-      icon: "🛠️"
+      title: "Cross-Chain Bridge",
+      subtitle: "Seamless interoperability",
+      description: "Bridge assets effortlessly between Plasma and other major networks with institutional-grade security.",
+      icon: "🌐"
+    },
+    {
+      title: "Governance & DAO",
+      subtitle: "Community-driven protocol",
+      description: "Participate in protocol governance and shape the future of DeFi through our decentralized voting system.",
+      icon: "🏛️"
     }
+  ];
+
+  const partnerships = [
+    { name: "Plasma Network", logo: "/images/icon_plasma.png" },
+    { name: "Partner 2", logo: "/logo.png" },
+    { name: "Partner 3", logo: "/logo.png" }
   ];
 
   return (
     <div className={classes.landingContainer}>
       {/* Hero Section */}
       <section className={classes.heroSection}>
+        <div className={classes.heroBackground}>
+          <div className={classes.gradientOrb}></div>
+          <div className={classes.gradientOrb2}></div>
+        </div>
         <div className={classes.heroContent}>
           <div className={classes.logoContainer}>
             <img 
@@ -48,34 +68,42 @@ function Home({ changeTheme }) {
           </div>
           
           <Typography variant="h1" className={classes.heroTitle}>
-            Fuseon
+            Fuseon Protocol
           </Typography>
           
           <div className={classes.subtitleContainer}>
             <Typography variant="h2" className={classes.heroSubtitle}>
-              The Central Liquidity Hub on 
+              The central liquidity hub on
             </Typography>
-            <img 
-              src="/images/icon_plasma.png" 
-              alt="Plasma" 
-              className={classes.plasmaIcon}
-            />
-            <Typography variant="h2" className={classes.plasmaText}>
-              Plasma
-            </Typography>
+            <div className={classes.plasmaContainer}>
+              <img 
+                src="/images/icon_plasma.png" 
+                alt="Plasma" 
+                className={classes.plasmaIcon}
+              />
+              <Typography variant="h2" className={classes.plasmaText}>
+                Plasma Network
+              </Typography>
+            </div>
           </div>
-          
-          <Typography variant="body1" className={classes.heroDescription}>
-            Experience next-generation DeFi with optimal capital efficiency,
-            <br />minimal slippage, and maximum returns.
-          </Typography>
+
+          {/* Stats */}
+          <div className={classes.statsContainer}>
+            {stats.map((stat, index) => (
+              <div key={index} className={classes.statItem}>
+                <div className={classes.statValue}>{stat.value}</div>
+                <div className={classes.statLabel}>{stat.label}</div>
+                <div className={classes.statDescription}>{stat.description}</div>
+              </div>
+            ))}
+          </div>
           
           <div className={classes.heroButtons}>
             <Button 
               className={classes.primaryButton}
               onClick={() => router.push('/swap')}
             >
-              Launch App
+              Enter App
             </Button>
             <Button 
               className={classes.secondaryButton}
@@ -87,19 +115,29 @@ function Home({ changeTheme }) {
         </div>
       </section>
 
-
       {/* Features Section */}
       <section id="features" className={classes.featuresSection}>
         <div className={classes.sectionContainer}>
-          <Typography variant="h2" className={classes.sectionTitle}>
-            Built for the future of DeFi
-          </Typography>
+          <div className={classes.sectionHeader}>
+            <Typography variant="h6" className={classes.sectionSubtitle}>
+              PROTOCOL FEATURES
+            </Typography>
+            <Typography variant="h2" className={classes.sectionTitle}>
+              Built for Institutional DeFi
+            </Typography>
+            <Typography variant="body1" className={classes.sectionDescription}>
+              Advanced features designed for sophisticated trading strategies and optimal capital efficiency
+            </Typography>
+          </div>
           
-          <Grid container spacing={6} className={classes.featuresGrid}>
+          <Grid container spacing={4} className={classes.featuresGrid}>
             {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid item xs={12} sm={6} md={3} key={index}>
                 <div className={classes.featureCard}>
-                  <div className={classes.featureIcon}>{feature.icon}</div>
+                  <div className={classes.featureHeader}>
+                    <div className={classes.featureIcon}>{feature.icon}</div>
+                    <div className={classes.featureNumber}>0{index + 1}</div>
+                  </div>
                   <Typography variant="h3" className={classes.featureTitle}>
                     {feature.title}
                   </Typography>
@@ -116,30 +154,122 @@ function Home({ changeTheme }) {
         </div>
       </section>
 
+      {/* Partners Section */}
+      <section className={classes.partnersSection}>
+        <div className={classes.sectionContainer}>
+          <Typography variant="h6" className={classes.partnersTitle}>
+            TRUSTED BY LEADING PROTOCOLS
+          </Typography>
+          <div className={classes.partnersGrid}>
+            {partnerships.map((partner, index) => (
+              <div key={index} className={classes.partnerItem}>
+                <img src={partner.logo} alt={partner.name} className={classes.partnerLogo} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className={classes.ctaSection}>
         <div className={classes.ctaContainer}>
-          <Typography variant="h2" className={classes.ctaTitle}>
-            Ready to get started?
-          </Typography>
-          <Typography variant="body1" className={classes.ctaDescription}>
-            Join thousands of users trading and earning on Fuseon
-          </Typography>
-          <Button 
-            className={classes.ctaButton}
-            onClick={() => router.push('/swap')}
-          >
-            Launch App
-          </Button>
+          <div className={classes.ctaContent}>
+            <Typography variant="h6" className={classes.ctaSubtitle}>
+              START TRADING
+            </Typography>
+            <Typography variant="h2" className={classes.ctaTitle}>
+              Ready to Experience Next-Gen DeFi?
+            </Typography>
+            <Typography variant="body1" className={classes.ctaDescription}>
+              Join institutional traders and DeFi natives leveraging Fuseon's advanced infrastructure
+            </Typography>
+            <div className={classes.ctaButtons}>
+              <Button 
+                className={classes.ctaButton}
+                onClick={() => router.push('/swap')}
+              >
+                Launch dApp
+              </Button>
+              <Button 
+                className={classes.ctaSecondaryButton}
+                onClick={() => window.open('https://docs.fuseon.io', '_blank')}
+              >
+                Read Docs
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className={classes.footer}>
         <div className={classes.footerContent}>
-          <Typography variant="body2" className={classes.footerText}>
-            Built on Plasma Network • Secured by smart contracts
-          </Typography>
+          <div className={classes.footerTop}>
+            <div className={classes.footerBrand}>
+              <div className={classes.footerLogo}>
+                <img src="/logo.png" alt="Fuseon" className={classes.footerLogoImg} />
+                <span className={classes.footerLogoText}>Fuseon Protocol</span>
+              </div>
+              <Typography variant="body2" className={classes.footerDescription}>
+                The central liquidity hub on Plasma Network
+              </Typography>
+            </div>
+            
+            <div className={classes.footerSection}>
+              <Typography variant="h6" className={classes.footerSectionTitle}>Protocol</Typography>
+              <div className={classes.footerLinks}>
+                <a href="/swap" className={classes.footerLink}>Swap</a>
+                <a href="/liquidity" className={classes.footerLink}>Liquidity</a>
+                <a href="#" className={classes.footerLink}>Analytics</a>
+                <a href="#" className={classes.footerLink}>Governance</a>
+              </div>
+            </div>
+            
+            <div className={classes.footerSection}>
+              <Typography variant="h6" className={classes.footerSectionTitle}>Resources</Typography>
+              <div className={classes.footerLinks}>
+                <a href="#" className={classes.footerLink}>Documentation</a>
+                <a href="#" className={classes.footerLink}>Security</a>
+                <a href="#" className={classes.footerLink}>Bug Bounty</a>
+                <a href="#" className={classes.footerLink}>Brand Assets</a>
+              </div>
+            </div>
+            
+            <div className={classes.footerSection}>
+              <Typography variant="h6" className={classes.footerSectionTitle}>Community</Typography>
+              <div className={classes.footerSocial}>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={classes.socialIcon}>
+                  <img src="/images/twitter.png" alt="Twitter" />
+                  <span>Twitter</span>
+                </a>
+                <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className={classes.socialIcon}>
+                  <img src="/images/discord.png" alt="Discord" />
+                  <span>Discord</span>
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className={classes.socialIcon}>
+                  <img src="/images/github.png" alt="GitHub" />
+                  <span>GitHub</span>
+                </a>
+                <a href="/docs" target="_blank" rel="noopener noreferrer" className={classes.socialIcon}>
+                  <img src="/images/docs.png" alt="Docs" />
+                  <span>Docs</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div className={classes.footerBottom}>
+            <div className={classes.footerBottomLeft}>
+              <Typography variant="body2" className={classes.footerText}>
+                © 2024 Fuseon Protocol. All rights reserved.
+              </Typography>
+            </div>
+            <div className={classes.footerBottomRight}>
+              <Typography variant="body2" className={classes.footerText}>
+                Built on Plasma Network • Secured by smart contracts
+              </Typography>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
