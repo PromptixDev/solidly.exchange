@@ -170,36 +170,6 @@ function Home({ changeTheme }) {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className={classes.ctaSection}>
-        <div className={classes.ctaContainer}>
-          <div className={classes.ctaContent}>
-            <Typography variant="h6" className={classes.ctaSubtitle}>
-              START TRADING
-            </Typography>
-            <Typography variant="h2" className={classes.ctaTitle}>
-              Ready to Experience Next-Gen DeFi?
-            </Typography>
-            <Typography variant="body1" className={classes.ctaDescription}>
-              Join institutional traders and DeFi natives leveraging Fuseon's advanced infrastructure
-            </Typography>
-            <div className={classes.ctaButtons}>
-              <Button 
-                className={classes.ctaButton}
-                onClick={() => router.push('/swap')}
-              >
-                Launch dApp
-              </Button>
-              <Button 
-                className={classes.ctaSecondaryButton}
-                onClick={() => window.open('https://docs.fuseon.io', '_blank')}
-              >
-                Read Docs
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className={classes.footer}>
@@ -220,8 +190,8 @@ function Home({ changeTheme }) {
               <div className={classes.footerLinks}>
                 <a href="/swap" className={classes.footerLink}>Swap</a>
                 <a href="/liquidity" className={classes.footerLink}>Liquidity</a>
-                <a href="#" className={classes.footerLink}>Analytics</a>
-                <a href="#" className={classes.footerLink}>Governance</a>
+                <a href="/lock" className={classes.footerLink}>Lock</a>
+                <a href="/vote" className={classes.footerLink}>Vote</a>
               </div>
             </div>
             
