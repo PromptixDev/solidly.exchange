@@ -1,13 +1,13 @@
 .ffContainer {
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 0px;
-  padding-top: 90px;
+  padding: 2rem 0;
   position: relative;
   justify-content: center;
-  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+  background: transparent;
 }
 
 .notConnectedContent {

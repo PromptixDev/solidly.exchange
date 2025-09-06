@@ -11,12 +11,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 body {
-  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%) !important;
+  background: #1a1a1a !important;
   min-height: 100vh;
 }
 
 html {
-  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%) !important;
+  background: #1a1a1a !important;
 }
 
 /* Styles globaux pour harmoniser avec la sidebar */
