@@ -121,6 +121,33 @@
   font-weight: 600 !important;
 }
 
+.menuItemDisabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+.menuItemDisabled:hover {
+  background-color: transparent !important;
+}
+
+.menuItemDisabled .menuIcon svg,
+.menuItemDisabled .menuIcon img {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.menuTextContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.comingSoonText {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  margin-top: -2px !important;
+}
+
 .proSection {
   margin: 20px;
   padding: 20px;

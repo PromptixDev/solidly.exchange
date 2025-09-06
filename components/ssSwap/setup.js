@@ -389,7 +389,7 @@ function Setup() {
   }
 
   const renderSlippageModal = () => {
-    const presetValues = ['0.01', '0.1', '0.5', '1', '5']
+    const presetValues = ['0.1', '1', '5']
     
     const onSlippagePresetClick = (value) => {
       setSlippage(value)
@@ -422,12 +422,8 @@ function Setup() {
             </IconButton>
           </div>
           
-          <p className={classes.slippageModalDescription}>
-            Slippage is the difference between the current market price of a token and the price at which 
-            the actual swap is executed. Volatile tokens usually require a larger value.
-          </p>
-
           <div className={classes.slippageInputContainer}>
+            <span className={classes.slippageInputLabel}>Custom slippage</span>
             <TextField
               fullWidth
               value={slippage}

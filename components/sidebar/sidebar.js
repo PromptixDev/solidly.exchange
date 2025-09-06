@@ -117,17 +117,22 @@ function Sidebar(props) {
       title: 'Lock',
       route: 'lock',
       icon: <LockIcon />,
+      disabled: true,
+      comingSoon: true,
     },
     {
       title: 'Vote',
       route: 'vote',
       icon: <VoteIcon />,
+      disabled: true,
+      comingSoon: true,
     },
   ];
 
-  const handleMenuClick = (route) => {
-    setActive(route);
-    handleNavigate('/' + route);
+  const handleMenuClick = (item) => {
+    if (item.disabled) return;
+    setActive(item.route);
+    handleNavigate('/' + item.route);
   };
 
   return (
@@ -147,13 +152,18 @@ function Sidebar(props) {
           {menuItems.map((item) => (
             <div
               key={item.route}
-              className={`${classes.menuItem} ${active === item.route ? classes.menuItemActive : ''}`}
-              onClick={() => handleMenuClick(item.route)}
+              className={`${classes.menuItem} ${active === item.route ? classes.menuItemActive : ''} ${item.disabled ? classes.menuItemDisabled : ''}`}
+              onClick={() => handleMenuClick(item)}
             >
               <div className={classes.menuIcon}>
                 {item.icon}
               </div>
-              <Typography className={classes.menuText}>{item.title}</Typography>
+              <div className={classes.menuTextContainer}>
+                <Typography className={classes.menuText}>{item.title}</Typography>
+                {item.comingSoon && (
+                  <Typography className={classes.comingSoonText}>Coming Soon</Typography>
+                )}
+              </div>
             </div>
           ))}
         </div>
