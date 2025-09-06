@@ -9,7 +9,10 @@ import {
   injected,
   walletconnect,
   walletlink,
-  network
+  network,
+  connectReown,
+  disconnectReown,
+  getReown
 } from './connectors';
 
 import Web3 from 'web3';
@@ -29,6 +32,7 @@ class Store {
         TrustWallet: injected,
         WalletConnect: walletconnect,
         WalletLink: walletlink,
+        Reown: 'reown',
       },
       gasPrices: {
         standard: 90,

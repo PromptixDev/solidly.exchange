@@ -222,6 +222,45 @@
   background-image: url('/connectors/trustWallet.png');
 }
 
+.reownButton {
+  display: flex !important;
+  align-items: center !important;
+  margin-left: 14px !important;
+  min-height: 50px !important;
+  background: linear-gradient(135deg, #06D3D7 0%, #4A90E2 100%) !important;
+  border: 0 !important;
+  border-radius: 40px !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  padding-left: 26px !important;
+  padding-right: 26px !important;
+  position: fixed !important;
+  z-index: 10030 !important;
+  box-shadow: 0 4px 12px rgba(6, 211, 215, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.reownButton:hover {
+  background: linear-gradient(135deg, #05B8BC 0%, #3A7BC2 100%) !important;
+  box-shadow: 0 6px 20px rgba(6, 211, 215, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+
+.reownButton:disabled {
+  background: rgba(33, 43, 72, 0.6) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 0.7 !important;
+}
+
+.reownIcon {
+  width: 20px !important;
+  height: 20px !important;
+  background-image: url('/connectors/walletConnectIcon.svg') !important;
+  background-size: 100% !important;
+  margin-right: 12px !important;
+  filter: brightness(1.2) !important;
+}
+
 .themeSelectContainer {
   /* position: absolute;
   left: 150px; */
@@ -340,6 +379,16 @@
     right: 10px !important;
   }
 
+  .reownButton {
+    display: flex !important;
+    align-items: center !important;
+    margin-left: 0 !important;
+    position: fixed !important;
+    z-index: 10030 !important;
+    top: 17px !important;
+    right: 180px !important;
+  }
+
   .userMenu {
     z-index: 10030 !important;
   }
@@ -355,5 +404,13 @@
     padding-left: 16px !important;
     padding-right: 16px !important;
     top: 10px !important;
+  }
+
+  .reownButton {
+    min-height: 40px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    top: 10px !important;
+    right: 160px !important;
   }
 }

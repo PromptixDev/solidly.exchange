@@ -152,15 +152,33 @@ function getLibrary(provider) {
   return library;
 }
 
-function onConnectionClicked(
+async function onConnectionClicked(
   currentConnector,
   name,
   setActivatingConnector,
   activate
 ) {
   const connectorsByName = stores.accountStore.getStore("connectorsByName");
-  setActivatingConnector(currentConnector);
-  activate(connectorsByName[name]);
+  
+  if (name === "Reown") {
+    // Gestion spéciale pour Reown
+    try {
+      const { connectReown } = await import('../../stores/connectors');
+      setActivatingConnector(currentConnector);
+      
+      await connectReown();
+      
+      // Le modal Reown s'ouvre automatiquement
+      // La connexion sera gérée par les événements Reown
+      
+    } catch (error) {
+      console.error('Erreur de connexion Reown:', error);
+      stores.emitter.emit('ERROR', error);
+    }
+  } else {
+    setActivatingConnector(currentConnector);
+    activate(connectorsByName[name]);
+  }
 }
 
 function onDeactivateClicked(deactivate, connector) {
@@ -267,6 +285,10 @@ function MyComponent(props) {
           display = "Coinbase Wallet";
           url = "/connectors/coinbaseWalletIcon.svg";
           descriptor = "Connect to your Coinbase wallet";
+        } else if (name === "Reown") {
+          display = "Reown WalletKit";
+          url = "/connectors/walletConnectIcon.svg";
+          descriptor = "Connect with Reown WalletKit";
         } else if (name === "Frame") {
           return "";
         }

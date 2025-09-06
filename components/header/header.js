@@ -17,6 +17,7 @@ import { ACTIONS } from '../../stores/constants';
 
 import stores from '../../stores';
 import { formatAddress } from '../../utils';
+import { connectCustomWalletConnect } from '../../stores/connectors';
 
 import classes from './header.module.css';
 
@@ -182,6 +183,38 @@ function Header(props) {
     setUnlockOpen(true);
   };
 
+  const onConnect = async () => {
+    if (account && account.address) {
+      // Si déjà connecté, déconnecter
+      onDisconnect();
+    } else {
+      // Si pas connecté, ouvrir Reown pour choisir le provider
+      try {
+        setLoading(true);
+        const provider = await connectCustomWalletConnect();
+        
+        if (provider && provider.accounts && provider.accounts.length > 0) {
+          stores.accountStore.setStore({
+            account: { address: provider.accounts[0] },
+            web3context: { library: { provider: provider } }
+          });
+          stores.emitter.emit(ACTIONS.ACCOUNT_CONFIGURED);
+        }
+      } catch (error) {
+        console.error('Erreur connexion:', error);
+        stores.emitter.emit(ACTIONS.ERROR, error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const onDisconnect = () => {
+    stores.accountStore.setStore({ account: {}, web3context: null });
+    stores.emitter.emit(ACTIONS.CONNECTION_DISCONNECTED);
+    handleClose(); // Fermer le menu après déconnexion
+  };
+
   const closeUnlock = () => {
     setUnlockOpen(false);
   };
@@ -259,52 +292,54 @@ function Header(props) {
             </IconButton>
           }
 
-          {account && account.address ?
-          <div>
-          <Button
-            disableElevation
-            className={classes.accountButton}
-            variant="contained"
-            color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
-             aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-            {account && account.address && <div className={`${classes.accountIcon} ${classes.metamask}`}></div>}
-            <Typography className={classes.headBtnTxt}>{account && account.address ? formatAddress(account.address) : 'Connect Wallet'}</Typography>
-            <ArrowDropDownIcon className={classes.ddIcon} />
-          </Button>
+          {/* Bouton Connect/Disconnect suivant la charte graphique */}
+          {account && account.address ? (
+            <div>
+              <Button
+                disableElevation
+                className={classes.accountButton}
+                variant="contained"
+                color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
+                aria-controls="wallet-menu" 
+                aria-haspopup="true" 
+                onClick={handleClick}
+                disabled={loading}>
+                <div className={`${classes.accountIcon} ${classes.metamask}`}></div>
+                <Typography className={classes.headBtnTxt}>
+                  {formatAddress(account.address)}
+                </Typography>
+                <ArrowDropDownIcon className={classes.ddIcon} />
+              </Button>
 
-          <StyledMenu
-            id="customized-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            className={classes.userMenu}
-          >
-            <StyledMenuItem className={classes.hidden} onClick={() => router.push('/dashboard')}>
-              <ListItemIcon className={classes.userMenuIcon}>
-                <DashboardOutlinedIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText className={classes.userMenuText} primary="Dashboard" />
-            </StyledMenuItem>
-            <StyledMenuItem onClick={onAddressClicked}>
-              <ListItemIcon className={classes.userMenuIcon}>
-                <AccountBalanceWalletOutlinedIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText className={classes.userMenuText} primary="Switch Wallet Provider" />
-            </StyledMenuItem>
-          </StyledMenu>
-          </div>
-          :
-          <Button
-            disableElevation
-            className={classes.accountButton}
-            variant="contained"
-            color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
-            onClick={onAddressClicked}>
-            {account && account.address && <div className={`${classes.accountIcon} ${classes.metamask}`}></div>}
-            <Typography className={classes.headBtnTxt}>{account && account.address ? formatAddress(account.address) : 'Connect Wallet'}</Typography>
-          </Button>
-          }
+              <StyledMenu
+                id="wallet-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                className={classes.userMenu}
+              >
+                <StyledMenuItem onClick={onDisconnect}>
+                  <ListItemIcon className={classes.userMenuIcon}>
+                    <AccountBalanceWalletOutlinedIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText className={classes.userMenuText} primary="Disconnect" />
+                </StyledMenuItem>
+              </StyledMenu>
+            </div>
+          ) : (
+            <Button
+              disableElevation
+              className={classes.accountButton}
+              variant="contained"
+              color={props.theme.palette.type === 'dark' ? 'primary' : 'secondary'}
+              onClick={onConnect}
+              disabled={loading}>
+              <Typography className={classes.headBtnTxt}>
+                {loading ? 'Loading...' : 'Connect'}
+              </Typography>
+            </Button>
+          )}
 
         </div>
         {unlockOpen && <Unlock modalOpen={unlockOpen} closeModal={closeUnlock} />}
