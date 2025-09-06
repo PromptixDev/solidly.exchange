@@ -7,36 +7,28 @@ import SSWarning from '../ssWarning';
 import stores from '../../stores';
 import classes from './sidebar.module.css';
 
-// Icônes personnalisées
+// Icônes personnalisées avec images
 function SwapIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 24 24">
-      <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"/>
-    </SvgIcon>
+    <img src="/images/swap.png" alt="Swap" style={{ width: '24px', height: '24px' }} />
   );
 }
 
 function LiquidityIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 24 24">
-      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9M19 21H5V3H13V9H19Z"/>
-    </SvgIcon>
+    <img src="/images/liquidity.png" alt="Liquidity" style={{ width: '24px', height: '24px' }} />
   );
 }
 
 function LockIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 24 24">
-      <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
-    </SvgIcon>
+    <img src="/images/lock.png" alt="Lock" style={{ width: '24px', height: '24px' }} />
   );
 }
 
 function VoteIcon(props) {
   return (
-    <SvgIcon {...props} viewBox="0 0 24 24">
-      <path d="M18,13H13V18H11V13H6V11H11V6H13V11H18V13Z"/>
-    </SvgIcon>
+    <img src="/images/vote.png" alt="Vote" style={{ width: '24px', height: '24px' }} />
   );
 }
 
@@ -131,16 +123,6 @@ function Sidebar(props) {
       route: 'vote',
       icon: <VoteIcon />,
     },
-    {
-      title: 'Rewards',
-      route: 'rewards',
-      icon: <RewardsIcon />,
-    },
-    {
-      title: 'Whitelist',
-      route: 'whitelist',
-      icon: <WhitelistIcon />,
-    },
   ];
 
   const handleMenuClick = (route) => {
@@ -154,7 +136,7 @@ function Sidebar(props) {
       <div className={classes.sidebarHeader}>
         <div className={classes.logoContainer} onClick={() => router.push('/home')}>
           <SiteLogo className={classes.logo} />
-          <Typography className={classes.brandText}>Fuseon</Typography>
+          
         </div>
       </div>
 
@@ -179,13 +161,21 @@ function Sidebar(props) {
 
       
 
-      {/* Footer avec icônes */}
+      {/* Footer avec liens sociaux */}
       <div className={classes.sidebarFooter}>
         <div className={classes.footerIcons}>
-          <div className={classes.footerIcon}>⚙️</div>
-          <div className={classes.footerIcon}>🔗</div>
-          <div className={classes.footerIcon}>📊</div>
-          <div className={classes.footerIcon}>⚙️</div>
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className={classes.footerIcon}>
+            <img src="/images/twitter.png" alt="Twitter" style={{ width: '20px', height: '20px' }} />
+          </a>
+          <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className={classes.footerIcon}>
+            <img src="/images/discord.png" alt="Discord" style={{ width: '20px', height: '20px' }} />
+          </a>
+          <a href="/docs" target="_blank" rel="noopener noreferrer" className={classes.footerIcon}>
+            <img src="/images/docs.png" alt="Docs" style={{ width: '20px', height: '20px' }} />
+          </a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className={classes.footerIcon}>
+            <img src="/images/github.png" alt="GitHub" style={{ width: '20px', height: '20px' }} />
+          </a>
         </div>
       </div>
 

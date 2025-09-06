@@ -7,9 +7,9 @@
   min-height: 60px;
   position: fixed;
   top: 0;
-  left: 0;
+  left: 280px;
   z-index: 9 !important;
-  width: calc(100%);
+  width: calc(100% - 280px);
   border: 0;
   border-radius: 0 !important;
   background: transparent;
